@@ -110,9 +110,9 @@ void dc_hansburg_set_disable_time(int value)
 int dc_hansburg_disable_check()
 {
     int result          = DC_HANSBURG_FLAG_FALSE;
-    int elapsed_time    = DC_HANSBURG_DEFAULT_INT;
-    int time_disable    = DC_HANSBURG_DEFAULT_INT;
-    int vartype         = DC_HANSBURG_DEFAULT_INT;
+    int elapsed_time    = 0;
+    int time_disable    = 0;
+    int vartype         = 0;
 
     time_disable = getindexedvar(DC_HANSBURG_VAR_KEY_DISABLE);
 
@@ -150,20 +150,20 @@ int dc_hansburg_disable_check()
 // the animation set, or DC_HANSBURG_FLAG_FALSE if none.
 int dc_hansburg_execute(){
 
-    void    ent             = DC_HANSBURG_DEFAULT_POINTER;    // Entity controlled by player index.
-    int     key_press       = DC_HANSBURG_DEFAULT_INT;        // Key press triggering event.
-	int     key_hold        = DC_HANSBURG_DEFAULT_INT;        // Keys currently held when event was triggered.
+    void    ent             = NULL();    // Entity controlled by player index.
+    int     key_press       = 0;        // Key press triggering event.
+	int     key_hold        = 0;        // Keys currently held when event was triggered.
 	int     direction       = DC_HANSBURG_DIRECTION_RIGHT;    // Current facing.
 	int     cmd_direction   = DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL;  // Current directional command hold from player in relation to entity's facing.
-	float   position_y      = DC_HANSBURG_DEFAULT_FLOAT;      // Entity position, Y axis.
-	float   position_height = DC_HANSBURG_DEFAULT_FLOAT;      // Entity height from base.
-	int     animation_id    = DC_HANSBURG_DEFAULT_INT;        // Current animation.
+	float   position_y      = 0.0;      // Entity position, Y axis.
+	float   position_height = 0.0;      // Entity height from base.
+	int     animation_id    = 0;        // Current animation.
 	int     animation_valid = DC_HANSBURG_FLAG_FALSE;         // Flag indicating entity has an animation.
-    float   edge_x          = DC_HANSBURG_DEFAULT_FLOAT;      // Edge check position, X axis.
-    int     wall_x          = DC_HANSBURG_DEFAULT_INT;        // Wall check position, X axis.
-    int     obstacle_x      = DC_HANSBURG_DEFAULT_INT;        // Obstacle check position, X axis.
-    int     animation_set   = DC_HANSBURG_DEFAULT_INT;        // Animation to perform.
-    float   position_x_set  = DC_HANSBURG_DEFAULT_FLOAT;      // Position to set, X axis.
+    float   edge_x          = 0.0;      // Edge check position, X axis.
+    int     wall_x          = 0;        // Wall check position, X axis.
+    int     obstacle_x      = 0;        // Obstacle check position, X axis.
+    int     animation_set   = 0;        // Animation to perform.
+    float   position_x_set  = 0.0;      // Position to set, X axis.
     float   maximum_height  = DC_HANSBURG_MAXIMUM_HEIGHT;     // Maximum height to allow auxiliary jumps.
     int     vartype         = DC_HANSBURG_VT_EMPTY;           // Variable type.
 
@@ -323,7 +323,7 @@ int dc_hansburg_face_away(void ent, float target_x)
 {
 
     int     result          = DC_HANSBURG_DIRECTION_RIGHT;  // Result and position entity is set to.
-    float   position_x      = DC_HANSBURG_DEFAULT_FLOAT;    // Entity position, X axis.
+    float   position_x      = 0.0;    // Entity position, X axis.
 
 	// Get X position.
 	position_x      = getentityproperty(ent, "x");
@@ -351,7 +351,7 @@ int dc_hansburg_face_away(void ent, float target_x)
 // to entity's current facing.
 int dc_hansburg_aux_command_direction(void ent, int key_hold)
 {
-    int direction   = DC_HANSBURG_DEFAULT_INT;
+    int direction   = 0;
     int result      = DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL;
 
     // Get current facing.
@@ -406,26 +406,26 @@ int dc_hansburg_aux_command_direction(void ent, int key_hold)
 // Returns x position of closest wall within animation range.
 int dc_hansburg_find_wall_x(void ent, int animation_id)
 {
-    int result              = DC_HANSBURG_DEFAULT_INT;      // Final result.
+    int result              = 0;      // Final result.
     int animation_valid     = DC_HANSBURG_FLAG_FALSE;       // Animation exists flag.
-    int check_x_min         = DC_HANSBURG_DEFAULT_INT;      // Checking minimum range.
-    int check_x_max         = DC_HANSBURG_DEFAULT_INT;      // Checking maximum range.
-    int check_y_min         = DC_HANSBURG_DEFAULT_INT;      // Checking minimum range.
-    int check_y_max         = DC_HANSBURG_DEFAULT_INT;      // Checking maximum range.
-    int check_z_min         = DC_HANSBURG_DEFAULT_INT;      // Checking minimum range.
-    int check_z_max         = DC_HANSBURG_DEFAULT_INT;      // Checking maximum range.
-    int wall_height         = DC_HANSBURG_DEFAULT_INT;      // Wall height.
-    int wall_distance_old   = DC_HANSBURG_DEFAULT_INT;
-    int wall_distance_new   = DC_HANSBURG_DEFAULT_INT;
+    int check_x_min         = 0;      // Checking minimum range.
+    int check_x_max         = 0;      // Checking maximum range.
+    int check_y_min         = 0;      // Checking minimum range.
+    int check_y_max         = 0;      // Checking maximum range.
+    int check_z_min         = 0;      // Checking minimum range.
+    int check_z_max         = 0;      // Checking maximum range.
+    int wall_height         = 0;      // Wall height.
+    int wall_distance_old   = 0;
+    int wall_distance_new   = 0;
     int direction           = DC_HANSBURG_DIRECTION_RIGHT;  // Current facing.
-    int height              = DC_HANSBURG_DEFAULT_INT;      // height of wall found (if any).
+    int height              = 0;      // height of wall found (if any).
 
-    float position_x        = DC_HANSBURG_DEFAULT_FLOAT;
-    float position_y        = DC_HANSBURG_DEFAULT_FLOAT;
-    float position_z        = DC_HANSBURG_DEFAULT_FLOAT;
+    float position_x        = 0.0;
+    float position_y        = 0.0;
+    float position_z        = 0.0;
 
-    int loop_x              = DC_HANSBURG_DEFAULT_INT;      // Loop counter.
-    int loop_z              = DC_HANSBURG_DEFAULT_INT;      // Loop counter.
+    int loop_x              = 0;      // Loop counter.
+    int loop_z              = 0;      // Loop counter.
 
     // If this entity doesn't have the animation at all,
     // then exit. There's nothing else to do.
@@ -525,8 +525,8 @@ int dc_hansburg_find_edge_x(void ent, int animation)
     int result              = DC_HANSBURG_FLAG_FALSE;   // Final result.
     int in_range            = DC_HANSBURG_FLAG_FALSE;   // Target in range.
     int animation_valid     = DC_HANSBURG_FLAG_FALSE;   // Animation exists flag.
-    int scroll_x            = DC_HANSBURG_DEFAULT_INT;  // Screen scroll position.
-    int far_x               = DC_HANSBURG_DEFAULT_INT;  // location of far screen edge.
+    int scroll_x            = 0;  // Screen scroll position.
+    int far_x               = 0;  // location of far screen edge.
     int vartype             = DC_HANSBURG_VT_EMPTY;     // Variable type.
     int anim_valid          = DC_HANSBURG_FLAG_FALSE;   // Valid animation?
 
@@ -566,7 +566,7 @@ int dc_hansburg_find_edge_x(void ent, int animation)
         // Just in case the scroll position hasn't moved at all
         // but is still within range, return 1 instead of 0 so
         // evaluations won't fail.
-        if(scroll_x == DC_HANSBURG_DEFAULT_FLOAT)
+        if(scroll_x == 0.0)
         {
             result = 1;
         }
@@ -587,7 +587,7 @@ int dc_hansburg_find_edge_x(void ent, int animation)
 
         // Just in case the case the end result is still 0,
         // we'll adjust it to 1 so evaluations don't fail.
-        if(result == DC_HANSBURG_DEFAULT_FLOAT)
+        if(result == 0.0)
         {
             result = 1;
         }
@@ -603,17 +603,17 @@ int dc_hansburg_find_edge_x(void ent, int animation)
 // Returns x position of first obstacle in range of animation.
 int dc_hansburg_find_obstacle_x(void ent, int animation_id){
 
-    int     result          = DC_HANSBURG_DEFAULT_INT;          // Final result.
+    int     result          = 0;          // Final result.
     int     animation_valid = DC_HANSBURG_FLAG_FALSE;           // Animation exists flag.
-    float   target_x        = DC_HANSBURG_DEFAULT_FLOAT;        // Position of entity on X axis.
-    float   target_y        = DC_HANSBURG_DEFAULT_FLOAT;        // Position of entity on Y axis.
-    float   target_z        = DC_HANSBURG_DEFAULT_FLOAT;        // Position of entity on Z axis.
-    int     target_h        = DC_HANSBURG_DEFAULT_INT;          // Target's height setting.
-    void    target          = DC_HANSBURG_DEFAULT_POINTER;      // Target entity pointer.
-    int     target_count    = DC_HANSBURG_DEFAULT_INT;          // Target Entity count.
-    int     i               = DC_HANSBURG_DEFAULT_INT;          // Loop counter.
+    float   target_x        = 0.0;        // Position of entity on X axis.
+    float   target_y        = 0.0;        // Position of entity on Y axis.
+    float   target_z        = 0.0;        // Position of entity on Z axis.
+    int     target_h        = 0;          // Target's height setting.
+    void    target          = NULL();      // Target entity pointer.
+    int     target_count    = 0;          // Target Entity count.
+    int     i               = 0;          // Loop counter.
     int     in_range        = DC_HANSBURG_FLAG_FALSE;           // Target in range?
-    int     type            = DC_HANSBURG_TYPE_OBSTACLE;        // Type of entity.
+    int     type            = openborconstant("TYPE_OBSTACLE");        // Type of entity.
 
     // If this entity doesn't have the animation at all,
     // then exit. There's nothing else to do.
@@ -647,7 +647,7 @@ int dc_hansburg_find_obstacle_x(void ent, int animation_id){
 
 	    type        = getentityproperty(target, "type");
 
-	    if(in_range == DC_HANSBURG_FLAG_TRUE && type == DC_HANSBURG_TYPE_OBSTACLE)
+	    if(in_range == DC_HANSBURG_FLAG_TRUE && type == openborconstant("TYPE_OBSTACLE"))
         {
             // Get the current target x position, then exit loop.
             result = getentityproperty(target, "x");
@@ -666,18 +666,18 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
 {
     int     result          = DC_HANSBURG_FLAG_FALSE;       // Result to return.
     int     direction       = DC_HANSBURG_DIRECTION_LEFT;   // Direction of entity.
-    int     range_b_min     = DC_HANSBURG_DEFAULT_INT;
-    int     range_b_max     = DC_HANSBURG_DEFAULT_INT;
-    int     range_x_min     = DC_HANSBURG_DEFAULT_INT;
-    int     range_x_max     = DC_HANSBURG_DEFAULT_INT;
-    int     range_y_min     = DC_HANSBURG_DEFAULT_INT;
-    int     range_y_max     = DC_HANSBURG_DEFAULT_INT;
-    int     range_z_min     = DC_HANSBURG_DEFAULT_INT;
-    int     range_z_max     = DC_HANSBURG_DEFAULT_INT;
-    float   position_x      = DC_HANSBURG_DEFAULT_FLOAT;    // Entity position, X axis.
-    float   position_y      = DC_HANSBURG_DEFAULT_FLOAT;    // Entity position, Y axis.
-    float   position_z      = DC_HANSBURG_DEFAULT_FLOAT;    // Entity position, Z axis.
-    int     position_base   = DC_HANSBURG_DEFAULT_INT;      // Entity position, base.
+    int     range_b_min     = 0;
+    int     range_b_max     = 0;
+    int     range_x_min     = 0;
+    int     range_x_max     = 0;
+    int     range_y_min     = 0;
+    int     range_y_max     = 0;
+    int     range_z_min     = 0;
+    int     range_z_max     = 0;
+    float   position_x      = 0.0;    // Entity position, X axis.
+    float   position_y      = 0.0;    // Entity position, Y axis.
+    float   position_z      = 0.0;    // Entity position, Z axis.
+    int     position_base   = 0;      // Entity position, base.
     int     vartype         = DC_HANSBURG_VT_EMPTY;         // Variable type.
     int     anim_valid      = DC_HANSBURG_FLAG_FALSE;       // Valid animation?
 

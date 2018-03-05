@@ -60,18 +60,10 @@
     #define DC_HANSBURG_VAR_KEY_KEY_PRESS           "dchansburg_3"                      // Key press.
     #define DC_HANSBURG_VAR_KEY_MAX_HEIGHT          "dchansburg_4"                      // Temporary maximum height.
 
-    // Default values.
-    #define DC_HANSBURG_DEFAULT_FLOAT               0.0                                 // Float.
-    #define DC_HANSBURG_DEFAULT_INT                 0                                   // Integer.
-    #define DC_HANSBURG_DEFAULT_POINTER             NULL()                              // Pointer.
-
     // System animations.
     #define DC_HANSBURG_ANI_JUMP                    openborconstant("ANI_JUMP")         // Jumping animation.
     #define DC_HANSBURG_ANI_JUMP_RUN                openborconstant("ANI_RUNJUMP")      // Running jump animation.
     #define DC_HANSBURG_ANI_JUMP_WALK               openborconstant("ANI_FORWARDJUMP")  // Moving jump animation.
-
-    // Entity types.
-    #define DC_HANSBURG_TYPE_OBSTACLE               openborconstant("TYPE_OBSTACLE")    // Obstacle.
 
     // System key flags.
     #define DC_HANSBURG_KEY_ATTACK                  openborconstant("FLAG_ATTACK")      // Attack 1.
