@@ -1,4 +1,4 @@
-#include "data/scripts/dc_aux_jump/settings.h"
+#include "data/scripts/dc_aux_jump/config.h"
 
 // Script var accessors
 void dc_aux_jump_get_entity()
