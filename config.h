@@ -1,8 +1,8 @@
 #ifndef DC_AUX_JUMP
 
-    // *****Settings*****
+    // *****COnfiguration*****
     //
-    // These are the settings you will use to configure the auxiliary
+    // These are the attributes you will use to configure the auxiliary
     // jumping system.
 
     // This is the maximum height the jumping system allows. Auxiliary
