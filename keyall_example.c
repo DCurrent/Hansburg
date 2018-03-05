@@ -53,10 +53,10 @@ void main()
     // might not want to. But unless you intend to use the
     // Jump key for other things in conjunction with the
     // auxiliary jumping system, it's a good idea.
-    if(aux_jump != DC_AUX_JUMP_FLAG_FALSE)
+    if(aux_jump != DC_HANSBURG_FLAG_FALSE)
     {
         // Remove the jump command from key press.
-        player_key_press = player_key_press - DC_AUX_JUMP_KEY_JUMP;
+        player_key_press = player_key_press - DC_HANSBURG_KEY_JUMP;
 
         // Apply the key press to player entity.
         changeplayerproperty(player_entity, "playkeys", player_key_press);
