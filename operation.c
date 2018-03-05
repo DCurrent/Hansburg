@@ -176,7 +176,7 @@ int dc_hansburg_execute(){
     key_press       = dc_hansburg_get_key_press();
 
 	// Is this a jump key press and a valid entity pointer?
-	if(key_press & DC_HANSBURG_KEY_JUMP
+	if(key_press & openborconstant("FLAG_JUMP")
         && vartype == DC_HANSBURG_VT_POINTER)
 	{
 	    // Let's get the entity properties we'll need.
@@ -364,7 +364,7 @@ int dc_hansburg_aux_command_direction(void ent, int key_hold)
         case DC_HANSBURG_DIRECTION_LEFT:
 
             // Holding key left?
-            if(key_hold & DC_HANSBURG_KEY_MOVE_LEFT)
+            if(key_hold & openborconstant("FLAG_MOVELEFT"))
             {
                 // Then this is the "forward" key.
                 result = DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD;
@@ -383,7 +383,7 @@ int dc_hansburg_aux_command_direction(void ent, int key_hold)
         case DC_HANSBURG_DIRECTION_RIGHT:
 
             // Holding key left?
-            if(key_hold & DC_HANSBURG_KEY_MOVE_LEFT)
+            if(key_hold & openborconstant("FLAG_MOVELEFT"))
             {
                 // Then this is the "back" key.
                 result = DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK;

@@ -56,7 +56,7 @@ void main()
     if(aux_jump != DC_HANSBURG_FLAG_FALSE)
     {
         // Remove the jump command from key press.
-        player_key_press = player_key_press - DC_HANSBURG_KEY_JUMP;
+        player_key_press = player_key_press - openborconstant("FLAG_JUMP");
 
         // Apply the key press to player entity.
         changeplayerproperty(player_entity, "playkeys", player_key_press);
