@@ -1,28 +1,28 @@
-#include "data/scripts/dc_aux_jump/config.h"
+#include "data/scripts/dc_hansburg/config.h"
 
 // Script var accessors
-void dc_aux_jump_get_entity()
+void dc_hansburg_get_entity()
 {
     return getscriptvar(DC_HANSBURG_VAR_KEY_ENTITY);
 }
 
-int dc_aux_jump_get_key_hold()
+int dc_hansburg_get_key_hold()
 {
     return getscriptvar(DC_HANSBURG_VAR_KEY_KEY_HOLD);
 }
 
-int dc_aux_jump_get_key_press()
+int dc_hansburg_get_key_press()
 {
     return getscriptvar(DC_HANSBURG_VAR_KEY_KEY_PRESS);
 }
 
-float dc_aux_jump_get_max_height()
+float dc_hansburg_get_max_height()
 {
     return getscriptvar(DC_HANSBURG_VAR_KEY_MAX_HEIGHT);
 }
 
 // Script var mutators
-void dc_aux_jump_set_entity(void value)
+void dc_hansburg_set_entity(void value)
 {
     int vartype = NULL();
 
@@ -32,14 +32,14 @@ void dc_aux_jump_set_entity(void value)
     if(vartype != DC_HANSBURG_VT_POINTER
        && vartype != DC_HANSBURG_VT_EMPTY)
     {
-        log("\n\n error: dc_aux_jump_set_entity(void value): {value} argument is an invalid type. Pointer is required.");
+        log("\n\n error: dc_hansburg_set_entity(void value): {value} argument is an invalid type. Pointer is required.");
         return;
     }
 
     setscriptvar(DC_HANSBURG_VAR_KEY_ENTITY, value);
 }
 
-void dc_aux_jump_set_key_hold(int value)
+void dc_hansburg_set_key_hold(int value)
 {
     int vartype = NULL();
 
@@ -48,14 +48,14 @@ void dc_aux_jump_set_key_hold(int value)
     // Catch bad arguments here.
     if(vartype != DC_HANSBURG_VT_INTEGER)
     {
-        log("\n\n error: dc_aux_jump_set_key_hold(int value): {value} argument is an invalid type. Integer is required.");
+        log("\n\n error: dc_hansburg_set_key_hold(int value): {value} argument is an invalid type. Integer is required.");
         return;
     }
 
     setscriptvar(DC_HANSBURG_VAR_KEY_KEY_HOLD, value);
 }
 
-void dc_aux_jump_set_key_press(int value)
+void dc_hansburg_set_key_press(int value)
 {
     int vartype = NULL();
 
@@ -64,14 +64,14 @@ void dc_aux_jump_set_key_press(int value)
     // Catch bad arguments here.
     if(vartype != DC_HANSBURG_VT_INTEGER)
     {
-        log("\n\n error: dc_aux_jump_set_key_press(int value): {value} argument is an invalid type. Integer is required.");
+        log("\n\n error: dc_hansburg_set_key_press(int value): {value} argument is an invalid type. Integer is required.");
         return;
     }
 
     setscriptvar(DC_HANSBURG_VAR_KEY_KEY_PRESS, value);
 }
 
-void dc_aux_jump_set_max_height(float value)
+void dc_hansburg_set_max_height(float value)
 {
     int vartype = NULL();
 
@@ -81,14 +81,14 @@ void dc_aux_jump_set_max_height(float value)
     if(vartype != DC_HANSBURG_VT_FLOAT
        && vartype != DC_HANSBURG_VT_INTEGER)
     {
-        log("\n\n error: dc_aux_jump_set_max_height(float value): {value} argument is an invalid type. Floating decimal or integer is required.");
+        log("\n\n error: dc_hansburg_set_max_height(float value): {value} argument is an invalid type. Floating decimal or integer is required.");
         return;
     }
 
     setscriptvar(DC_HANSBURG_VAR_KEY_MAX_HEIGHT, value);
 }
 
-void dc_aux_jump_set_disable_time(int value)
+void dc_hansburg_set_disable_time(int value)
 {
     int vartype = NULL();
 
@@ -98,7 +98,7 @@ void dc_aux_jump_set_disable_time(int value)
     if(vartype != DC_HANSBURG_VT_INTEGER
        || vartype != DC_HANSBURG_VT_EMPTY)
     {
-        log("\n\n error: dc_aux_jump_set_disable_time(float value): {value} argument has invalid type. Integer or empty (NULL) value required.");
+        log("\n\n error: dc_hansburg_set_disable_time(float value): {value} argument has invalid type. Integer or empty (NULL) value required.");
         return;
     }
 
@@ -107,7 +107,7 @@ void dc_aux_jump_set_disable_time(int value)
 
 // Return true if disable time set by user. Clears timer
 // if expired and not infinite.
-int dc_aux_jump_disable_check()
+int dc_hansburg_disable_check()
 {
     int result          = DC_HANSBURG_FLAG_FALSE;
     int elapsed_time    = DC_HANSBURG_DEFAULT_INT;
@@ -148,7 +148,7 @@ int dc_aux_jump_disable_check()
 // and double jumping animations, evaluates usability based on
 // status and environment, and executes as necessary. Returns
 // the animation set, or DC_HANSBURG_FLAG_FALSE if none.
-int dc_aux_jump_execute(){
+int dc_hansburg_execute(){
 
     void    ent             = DC_HANSBURG_DEFAULT_POINTER;    // Entity controlled by player index.
     int     key_press       = DC_HANSBURG_DEFAULT_INT;        // Key press triggering event.
@@ -168,12 +168,12 @@ int dc_aux_jump_execute(){
     int     vartype         = DC_HANSBURG_VT_EMPTY;           // Variable type.
 
 	// Target entity.
-	ent             = dc_aux_jump_get_entity();
+	ent             = dc_hansburg_get_entity();
     vartype         = typeof(ent);
 
     // Get current key press and any keys being held.
-    key_hold        = dc_aux_jump_get_key_hold();
-    key_press       = dc_aux_jump_get_key_press();
+    key_hold        = dc_hansburg_get_key_hold();
+    key_press       = dc_hansburg_get_key_press();
 
 	// Is this a jump key press and a valid entity pointer?
 	if(key_press & DC_HANSBURG_KEY_JUMP
@@ -186,7 +186,7 @@ int dc_aux_jump_execute(){
 
         // Now let's see if there is a temporary maximum height set.
         // If not, we use the default.
-        maximum_height  = dc_aux_jump_get_max_height();
+        maximum_height  = dc_hansburg_get_max_height();
         vartype         = typeof(maximum_height);
 
         if(vartype != DC_HANSBURG_VT_FLOAT
@@ -218,9 +218,9 @@ int dc_aux_jump_execute(){
 
             // We'll need to get the x position of any possible walls
             // or edges within range of our alternate jump animations.
-            edge_x      = dc_aux_jump_find_edge_x(ent, DC_HANSBURG_ANI_JUMP_EDGE_START);
-            wall_x      = dc_aux_jump_find_wall_x(ent, DC_HANSBURG_ANI_JUMP_WALL_START);
-            obstacle_x  = dc_aux_jump_find_obstacle_x(ent, DC_HANSBURG_ANI_JUMP_OBJECT_START);
+            edge_x      = dc_hansburg_find_edge_x(ent, DC_HANSBURG_ANI_JUMP_EDGE_START);
+            wall_x      = dc_hansburg_find_wall_x(ent, DC_HANSBURG_ANI_JUMP_WALL_START);
+            obstacle_x  = dc_hansburg_find_obstacle_x(ent, DC_HANSBURG_ANI_JUMP_OBJECT_START);
 
             if(obstacle_x)
             {
@@ -228,7 +228,7 @@ int dc_aux_jump_execute(){
                 animation_set   = DC_HANSBURG_ANI_JUMP_OBJECT_START;
 
                 // Face away from obstacle.
-                dc_aux_jump_face_away(ent, obstacle_x);
+                dc_hansburg_face_away(ent, obstacle_x);
 
             }
             else if(wall_x)
@@ -237,7 +237,7 @@ int dc_aux_jump_execute(){
                 animation_set   = DC_HANSBURG_ANI_JUMP_WALL_START;
 
                 // Face away from wall.
-                dc_aux_jump_face_away(ent, wall_x);
+                dc_hansburg_face_away(ent, wall_x);
 
             }
             else if(edge_x)
@@ -246,7 +246,7 @@ int dc_aux_jump_execute(){
                 animation_set   = DC_HANSBURG_ANI_JUMP_EDGE_START;
 
                 // Face away from edge.
-                dc_aux_jump_face_away(ent, edge_x);
+                dc_hansburg_face_away(ent, edge_x);
             }
 
 		}
@@ -265,7 +265,7 @@ int dc_aux_jump_execute(){
             && animation_set == DC_HANSBURG_FLAG_FALSE)
         {
             // Which horizontal direction command is player sending?
-            cmd_direction   = dc_aux_jump_aux_command_direction(ent, key_hold);
+            cmd_direction   = dc_hansburg_aux_command_direction(ent, key_hold);
 
             // Let's decide which double jump animation to use based
             // on player's horizontal direction command.
@@ -319,7 +319,7 @@ int dc_aux_jump_execute(){
 }
 
 // Face away from given position.
-int dc_aux_jump_face_away(void ent, float target_x)
+int dc_hansburg_face_away(void ent, float target_x)
 {
 
     int     result          = DC_HANSBURG_DIRECTION_RIGHT;  // Result and position entity is set to.
@@ -349,7 +349,7 @@ int dc_aux_jump_face_away(void ent, float target_x)
 
 // Return forward or backward key command in relation
 // to entity's current facing.
-int dc_aux_jump_aux_command_direction(void ent, int key_hold)
+int dc_hansburg_aux_command_direction(void ent, int key_hold)
 {
     int direction   = DC_HANSBURG_DEFAULT_INT;
     int result      = DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL;
@@ -404,7 +404,7 @@ int dc_aux_jump_aux_command_direction(void ent, int key_hold)
 }
 
 // Returns x position of closest wall within animation range.
-int dc_aux_jump_find_wall_x(void ent, int animation_id)
+int dc_hansburg_find_wall_x(void ent, int animation_id)
 {
     int result              = DC_HANSBURG_DEFAULT_INT;      // Final result.
     int animation_valid     = DC_HANSBURG_FLAG_FALSE;       // Animation exists flag.
@@ -517,7 +517,7 @@ int dc_aux_jump_find_wall_x(void ent, int animation_id)
 
 // Get X position of screen edge if found within X range of
 // animation.
-int dc_aux_jump_find_edge_x(void ent, int animation)
+int dc_hansburg_find_edge_x(void ent, int animation)
 {
     // ent: Entity to perform range check.
     // animation_id: Animation to get range settings from.
@@ -559,12 +559,12 @@ int dc_aux_jump_find_edge_x(void ent, int animation)
     scroll_x    = openborvariant("xpos");
     far_x       = scroll_x + openborvariant("hResolution");
 
-    in_range = dc_aux_jump_check_range_by_position(ent, animation, scroll_x);
+    in_range = dc_hansburg_check_range_by_position(ent, animation, scroll_x);
 
     if(in_range == DC_HANSBURG_FLAG_TRUE)
     {
         // Just in case the scroll position hasn't moved at all
-        // bust is still within range, return 1 instead of 0 so
+        // but is still within range, return 1 instead of 0 so
         // evaluations won't fail.
         if(scroll_x == DC_HANSBURG_DEFAULT_FLOAT)
         {
@@ -579,7 +579,7 @@ int dc_aux_jump_find_edge_x(void ent, int animation)
     }
 
     // Same check, but this time for the far edge of screen.
-    in_range = dc_aux_jump_check_range_by_position(ent, animation, far_x);
+    in_range = dc_hansburg_check_range_by_position(ent, animation, far_x);
 
     if(in_range == DC_HANSBURG_FLAG_TRUE)
     {
@@ -595,13 +595,13 @@ int dc_aux_jump_find_edge_x(void ent, int animation)
         return result;
     }
 
-    // Return result (if we made it this far - it's false.
+    // Return result (if we made it this far - it's false).
     return result;
 
 }
 
 // Returns x position of first obstacle in range of animation.
-int dc_aux_jump_find_obstacle_x(void ent, int animation_id){
+int dc_hansburg_find_obstacle_x(void ent, int animation_id){
 
     int     result          = DC_HANSBURG_DEFAULT_INT;          // Final result.
     int     animation_valid = DC_HANSBURG_FLAG_FALSE;           // Animation exists flag.
@@ -643,13 +643,13 @@ int dc_aux_jump_find_obstacle_x(void ent, int animation_id){
 
 	    // Is the target in range and an obstacle?
 
-	    in_range    = dc_aux_jump_check_range_by_position(ent, animation_id, target_x, target_y, target_z);
+	    in_range    = dc_hansburg_check_range_by_position(ent, animation_id, target_x, target_y, target_z);
 
 	    type        = getentityproperty(target, "type");
 
 	    if(in_range == DC_HANSBURG_FLAG_TRUE && type == DC_HANSBURG_TYPE_OBSTACLE)
         {
-            // Get the current target x positon, then exit loop.
+            // Get the current target x position, then exit loop.
             result = getentityproperty(target, "x");
             break;
         }
@@ -662,7 +662,7 @@ int dc_aux_jump_find_obstacle_x(void ent, int animation_id){
 // Perform a manual range check vs. given coordinates.
 // Performs identical function to check_range, but against
 // a manually designated set of position coordinates.
-int dc_aux_jump_check_range_by_position(void ent, int animation, float target_x, float target_y, float target_z, float target_base)
+int dc_hansburg_check_range_by_position(void ent, int animation, float target_x, float target_y, float target_z, float target_base)
 {
     int     result          = DC_HANSBURG_FLAG_FALSE;       // Result to return.
     int     direction       = DC_HANSBURG_DIRECTION_LEFT;   // Direction of entity.

@@ -3,7 +3,7 @@
 
 // You must include the auxiliary jumping system here
 // to use its functions.
-#include "data/scripts/dc_aux_jump/main.c"
+#include "data/scripts/dc_hansburg/main.c"
 
 
 void main()
@@ -41,12 +41,12 @@ void main()
 
     // Send the jumping system basic values it will need. Notice these
     // are the variables we populated above.
-    dc_aux_jump_set_entity(player_entity);
-    dc_aux_jump_set_key_hold(player_key_hold);
-    dc_aux_jump_set_key_press(player_key_press);
+    dc_hansburg_set_entity(player_entity);
+    dc_hansburg_set_key_hold(player_key_hold);
+    dc_hansburg_set_key_press(player_key_press);
 
     // Execute the aux jump function and get the result.
-    aux_jump = dc_aux_jump_execute();
+    aux_jump = dc_hansburg_execute();
 
     // If an aux jump was triggered, let's clear the
     // Jump key. We don't HAVE to do this, and in some cases

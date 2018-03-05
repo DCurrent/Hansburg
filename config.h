@@ -10,7 +10,7 @@
     // height. This is to stop characters from climbing or jumping beyond the
     // design boundaries of your stage and possibly getting stuck. You can use
     // any value you like. Note you can temporarily override this setting by
-    // using the dc_aux_jump_set_max_height() command.
+    // using the dc_hansburg_set_max_height() command.
     #define DC_HANSBURG_MAXIMUM_HEIGHT              openborvariant("hResolution") * 1.25    // Maximum height to allow auxiliary jumps.
 
     // These are the auxiliary jumping animations. Settings here are module wide.
