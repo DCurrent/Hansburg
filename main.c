@@ -1,4 +1,4 @@
-#include    "data/scripts/dc_aux_jump/settings.h"
+#include    "data/scripts/dc_aux_jump/config.h"
 #import     "data/scripts/dc_aux_jump/operation.c"
 
 /*
