@@ -29,8 +29,8 @@ void dc_hansburg_set_entity(void value)
     vartype = typeof(value);
 
     // Catch bad arguments here.
-    if(vartype != DC_HANSBURG_VT_POINTER
-       && vartype != DC_HANSBURG_VT_EMPTY)
+    if(vartype != openborconstant("VT_PTR")
+       && vartype != openborconstant("VT_EMPTY"))
     {
         log("\n\n error: dc_hansburg_set_entity(void value): {value} argument is an invalid type. Pointer is required.");
         return;
@@ -46,7 +46,7 @@ void dc_hansburg_set_key_hold(int value)
     vartype = typeof(value);
 
     // Catch bad arguments here.
-    if(vartype != DC_HANSBURG_VT_INTEGER)
+    if(vartype != openborconstant("VT_INTEGER"))
     {
         log("\n\n error: dc_hansburg_set_key_hold(int value): {value} argument is an invalid type. Integer is required.");
         return;
@@ -62,7 +62,7 @@ void dc_hansburg_set_key_press(int value)
     vartype = typeof(value);
 
     // Catch bad arguments here.
-    if(vartype != DC_HANSBURG_VT_INTEGER)
+    if(vartype != openborconstant("VT_INTEGER"))
     {
         log("\n\n error: dc_hansburg_set_key_press(int value): {value} argument is an invalid type. Integer is required.");
         return;
@@ -78,8 +78,8 @@ void dc_hansburg_set_max_height(float value)
     vartype = typeof(value);
 
     // Catch bad arguments here.
-    if(vartype != DC_HANSBURG_VT_FLOAT
-       && vartype != DC_HANSBURG_VT_INTEGER)
+    if(vartype != openborconstant("VT_DECIMAL")
+       && vartype != openborconstant("VT_INTEGER"))
     {
         log("\n\n error: dc_hansburg_set_max_height(float value): {value} argument is an invalid type. Floating decimal or integer is required.");
         return;
@@ -95,8 +95,8 @@ void dc_hansburg_set_disable_time(int value)
     vartype = typeof(value);
 
     // Catch bad arguments here.
-    if(vartype != DC_HANSBURG_VT_INTEGER
-       || vartype != DC_HANSBURG_VT_EMPTY)
+    if(vartype != openborconstant("VT_INTEGER")
+       || vartype != openborconstant("VT_EMPTY"))
     {
         log("\n\n error: dc_hansburg_set_disable_time(float value): {value} argument has invalid type. Integer or empty (NULL) value required.");
         return;
@@ -109,7 +109,7 @@ void dc_hansburg_set_disable_time(int value)
 // if expired and not infinite.
 int dc_hansburg_disable_check()
 {
-    int result          = DC_HANSBURG_FLAG_FALSE;
+    int result          = 0;
     int elapsed_time    = 0;
     int time_disable    = 0;
     int vartype         = 0;
@@ -119,7 +119,7 @@ int dc_hansburg_disable_check()
     vartype = typeof(time_disable);
 
     // Does time have any valid integer value?
-    if(vartype == DC_HANSBURG_VT_INTEGER)
+    if(vartype == openborconstant("VT_INTEGER"))
     {
         // Is timer still active (greater than
         // current elapsed time) or infinite? if either
@@ -131,7 +131,7 @@ int dc_hansburg_disable_check()
            || time_disable != DC_HANSBURG_TIME_INFINITE)
         {
             // Result will be true.
-            result = DC_HANSBURG_FLAG_TRUE;
+            result = 1;
         }
         else
         {
@@ -147,7 +147,7 @@ int dc_hansburg_disable_check()
 // Main auxiliary jump function. Checks entity for Wall, edge, obstacle,
 // and double jumping animations, evaluates usability based on
 // status and environment, and executes as necessary. Returns
-// the animation set, or DC_HANSBURG_FLAG_FALSE if none.
+// the animation set, or 0 if none.
 int dc_hansburg_execute(){
 
     void    ent             = NULL();    // Entity controlled by player index.
@@ -158,14 +158,14 @@ int dc_hansburg_execute(){
 	float   position_y      = 0.0;      // Entity position, Y axis.
 	float   position_height = 0.0;      // Entity height from base.
 	int     animation_id    = 0;        // Current animation.
-	int     animation_valid = DC_HANSBURG_FLAG_FALSE;         // Flag indicating entity has an animation.
+	int     animation_valid = 0;         // Flag indicating entity has an animation.
     float   edge_x          = 0.0;      // Edge check position, X axis.
     int     wall_x          = 0;        // Wall check position, X axis.
     int     obstacle_x      = 0;        // Obstacle check position, X axis.
     int     animation_set   = 0;        // Animation to perform.
     float   position_x_set  = 0.0;      // Position to set, X axis.
     float   maximum_height  = DC_HANSBURG_MAXIMUM_HEIGHT;     // Maximum height to allow auxiliary jumps.
-    int     vartype         = DC_HANSBURG_VT_EMPTY;           // Variable type.
+    int     vartype         = openborconstant("VT_EMPTY");           // Variable type.
 
 	// Target entity.
 	ent             = dc_hansburg_get_entity();
@@ -177,7 +177,7 @@ int dc_hansburg_execute(){
 
 	// Is this a jump key press and a valid entity pointer?
 	if(key_press & openborconstant("FLAG_JUMP")
-        && vartype == DC_HANSBURG_VT_POINTER)
+        && vartype == openborconstant("VT_PTR"))
 	{
 	    // Let's get the entity properties we'll need.
 	    animation_id    = getentityproperty(ent, "animationid");
@@ -189,8 +189,8 @@ int dc_hansburg_execute(){
         maximum_height  = dc_hansburg_get_max_height();
         vartype         = typeof(maximum_height);
 
-        if(vartype != DC_HANSBURG_VT_FLOAT
-           && vartype != DC_HANSBURG_VT_INTEGER)
+        if(vartype != openborconstant("VT_DECIMAL")
+           && vartype != openborconstant("VT_INTEGER"))
         {
             maximum_height = DC_HANSBURG_MAXIMUM_HEIGHT;
         }
@@ -200,7 +200,7 @@ int dc_hansburg_execute(){
         if(position_y > maximum_height)
         {
             // was triggered. Return false.
-            return DC_HANSBURG_FLAG_FALSE;
+            return 0;
         }
 
 		// Is entity in a valid jumping animation and within maximum
@@ -262,7 +262,7 @@ int dc_hansburg_execute(){
             || animation_id == DC_HANSBURG_ANI_JUMP_WALL
             || animation_id == DC_HANSBURG_ANI_JUMP_EDGE
             || animation_id == DC_HANSBURG_ANI_JUMP_OBJECT)
-            && animation_set == DC_HANSBURG_FLAG_FALSE)
+            && animation_set == 0)
         {
             // Which horizontal direction command is player sending?
             cmd_direction   = dc_hansburg_aux_command_direction(ent, key_hold);
@@ -298,7 +298,7 @@ int dc_hansburg_execute(){
             // Does entity have the selected animation?
             animation_valid = getentityproperty(ent, "animvalid", animation_set);
 
-            if(animation_valid == DC_HANSBURG_FLAG_TRUE)
+            if(animation_valid == 1)
             {
                 // Now we need to stop all current velocity.
                 changeentityproperty(ent, "velocity", 0, 0, 0);
@@ -315,7 +315,7 @@ int dc_hansburg_execute(){
 
 	// If we made it all the way here, then no special jump action
 	// was triggered. Return false.
-	return DC_HANSBURG_FLAG_FALSE;
+	return 0;
 }
 
 // Face away from given position.
@@ -407,7 +407,7 @@ int dc_hansburg_aux_command_direction(void ent, int key_hold)
 int dc_hansburg_find_wall_x(void ent, int animation_id)
 {
     int result              = 0;      // Final result.
-    int animation_valid     = DC_HANSBURG_FLAG_FALSE;       // Animation exists flag.
+    int animation_valid     = 0;       // Animation exists flag.
     int check_x_min         = 0;      // Checking minimum range.
     int check_x_max         = 0;      // Checking maximum range.
     int check_y_min         = 0;      // Checking minimum range.
@@ -431,7 +431,7 @@ int dc_hansburg_find_wall_x(void ent, int animation_id)
     // then exit. There's nothing else to do.
     animation_valid =  getentityproperty(ent, "animvalid", animation_id);
 
-    if(animation_valid == DC_HANSBURG_FLAG_FALSE)
+    if(animation_valid == 0)
     {
         return result;
     }
@@ -522,18 +522,18 @@ int dc_hansburg_find_edge_x(void ent, int animation)
     // ent: Entity to perform range check.
     // animation_id: Animation to get range settings from.
 
-    int result              = DC_HANSBURG_FLAG_FALSE;   // Final result.
-    int in_range            = DC_HANSBURG_FLAG_FALSE;   // Target in range.
-    int animation_valid     = DC_HANSBURG_FLAG_FALSE;   // Animation exists flag.
+    int result              = 0;   // Final result.
+    int in_range            = 0;   // Target in range.
+    int animation_valid     = 0;   // Animation exists flag.
     int scroll_x            = 0;  // Screen scroll position.
     int far_x               = 0;  // location of far screen edge.
-    int vartype             = DC_HANSBURG_VT_EMPTY;     // Variable type.
-    int anim_valid          = DC_HANSBURG_FLAG_FALSE;   // Valid animation?
+    int vartype             = openborconstant("VT_EMPTY");     // Variable type.
+    int anim_valid          = 0;   // Valid animation?
 
     // Verify valid entity.
     vartype = typeof(ent);
 
-    if(vartype != DC_HANSBURG_VT_POINTER)
+    if(vartype != openborconstant("VT_PTR"))
     {
         return result;
     }
@@ -541,7 +541,7 @@ int dc_hansburg_find_edge_x(void ent, int animation)
     // Verify animation was provided.
     vartype = typeof(animation);
 
-    if(vartype != DC_HANSBURG_VT_INTEGER)
+    if(vartype != openborconstant("VT_INTEGER"))
     {
         return result;
     }
@@ -549,7 +549,7 @@ int dc_hansburg_find_edge_x(void ent, int animation)
     // Verify animation provided is valid.
     anim_valid = getentityproperty(ent, "animvalid", animation);
 
-    if(anim_valid == DC_HANSBURG_FLAG_FALSE)
+    if(anim_valid == 0)
     {
         return result;
     }
@@ -561,7 +561,7 @@ int dc_hansburg_find_edge_x(void ent, int animation)
 
     in_range = dc_hansburg_check_range_by_position(ent, animation, scroll_x);
 
-    if(in_range == DC_HANSBURG_FLAG_TRUE)
+    if(in_range == 1)
     {
         // Just in case the scroll position hasn't moved at all
         // but is still within range, return 1 instead of 0 so
@@ -581,7 +581,7 @@ int dc_hansburg_find_edge_x(void ent, int animation)
     // Same check, but this time for the far edge of screen.
     in_range = dc_hansburg_check_range_by_position(ent, animation, far_x);
 
-    if(in_range == DC_HANSBURG_FLAG_TRUE)
+    if(in_range == 1)
     {
         result = far_x;
 
@@ -604,7 +604,7 @@ int dc_hansburg_find_edge_x(void ent, int animation)
 int dc_hansburg_find_obstacle_x(void ent, int animation_id){
 
     int     result          = 0;          // Final result.
-    int     animation_valid = DC_HANSBURG_FLAG_FALSE;           // Animation exists flag.
+    int     animation_valid = 0;           // Animation exists flag.
     float   target_x        = 0.0;        // Position of entity on X axis.
     float   target_y        = 0.0;        // Position of entity on Y axis.
     float   target_z        = 0.0;        // Position of entity on Z axis.
@@ -612,14 +612,14 @@ int dc_hansburg_find_obstacle_x(void ent, int animation_id){
     void    target          = NULL();      // Target entity pointer.
     int     target_count    = 0;          // Target Entity count.
     int     i               = 0;          // Loop counter.
-    int     in_range        = DC_HANSBURG_FLAG_FALSE;           // Target in range?
+    int     in_range        = 0;           // Target in range?
     int     type            = openborconstant("TYPE_OBSTACLE");        // Type of entity.
 
     // If this entity doesn't have the animation at all,
     // then exit. There's nothing else to do.
     animation_valid =  getentityproperty(ent, "animvalid", animation_id);
 
-    if(animation_valid == DC_HANSBURG_FLAG_FALSE)
+    if(animation_valid == 0)
     {
         return result;
     }
@@ -647,7 +647,7 @@ int dc_hansburg_find_obstacle_x(void ent, int animation_id){
 
 	    type        = getentityproperty(target, "type");
 
-	    if(in_range == DC_HANSBURG_FLAG_TRUE && type == openborconstant("TYPE_OBSTACLE"))
+	    if(in_range == 1 && type == openborconstant("TYPE_OBSTACLE"))
         {
             // Get the current target x position, then exit loop.
             result = getentityproperty(target, "x");
@@ -664,7 +664,7 @@ int dc_hansburg_find_obstacle_x(void ent, int animation_id){
 // a manually designated set of position coordinates.
 int dc_hansburg_check_range_by_position(void ent, int animation, float target_x, float target_y, float target_z, float target_base)
 {
-    int     result          = DC_HANSBURG_FLAG_FALSE;       // Result to return.
+    int     result          = 0;       // Result to return.
     int     direction       = DC_HANSBURG_DIRECTION_LEFT;   // Direction of entity.
     int     range_b_min     = 0;
     int     range_b_max     = 0;
@@ -678,13 +678,13 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
     float   position_y      = 0.0;    // Entity position, Y axis.
     float   position_z      = 0.0;    // Entity position, Z axis.
     int     position_base   = 0;      // Entity position, base.
-    int     vartype         = DC_HANSBURG_VT_EMPTY;         // Variable type.
-    int     anim_valid      = DC_HANSBURG_FLAG_FALSE;       // Valid animation?
+    int     vartype         = openborconstant("VT_EMPTY");         // Variable type.
+    int     anim_valid      = 0;       // Valid animation?
 
     // Verify valid entity.
     vartype = typeof(ent);
 
-    if(vartype != DC_HANSBURG_VT_POINTER)
+    if(vartype != openborconstant("VT_PTR"))
     {
         return result;
     }
@@ -692,7 +692,7 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
     // Verify animation was provided.
     vartype = typeof(animation);
 
-    if(vartype != DC_HANSBURG_VT_INTEGER)
+    if(vartype != openborconstant("VT_INTEGER"))
     {
         return result;
     }
@@ -700,7 +700,7 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
     // Verify animation provided is valid.
     anim_valid = getentityproperty(ent, "animvalid", animation);
 
-    if(anim_valid == DC_HANSBURG_FLAG_FALSE)
+    if(anim_valid == 0)
     {
         return result;
     }
@@ -708,8 +708,8 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
     // If a target position base is given, evaluate base range.
     vartype = typeof(target_base);
 
-    if(vartype == DC_HANSBURG_VT_FLOAT
-       || vartype == DC_HANSBURG_VT_INTEGER)
+    if(vartype == openborconstant("VT_DECIMAL")
+       || vartype == openborconstant("VT_INTEGER"))
     {
 
         range_b_min = getentityproperty(ent, "range", "bmin", animation);
@@ -725,11 +725,11 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
         if((target_base - position_base) >= range_b_min
 		  && (target_base - position_base) <= range_b_max)
         {
-            result = DC_HANSBURG_FLAG_TRUE;
+            result = 1;
         }
         else
         {
-            result = DC_HANSBURG_FLAG_FALSE;
+            result = 0;
             return result;
         }
     }
@@ -738,8 +738,8 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
     // If a target position X is given, evaluate X range.
     vartype = typeof(target_x);
 
-    if(vartype == DC_HANSBURG_VT_FLOAT
-       || vartype == DC_HANSBURG_VT_INTEGER)
+    if(vartype == openborconstant("VT_DECIMAL")
+       || vartype == openborconstant("VT_INTEGER"))
     {
         // Get X range, position and direction.
         range_x_min = getentityproperty(ent, "range", "xmin", animation);
@@ -757,11 +757,11 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
             if(target_x >= position_x + range_x_min
                 && target_x <= position_x + range_x_max)
             {
-                result = DC_HANSBURG_FLAG_TRUE;
+                result = 1;
             }
             else
             {
-                result = DC_HANSBURG_FLAG_FALSE;
+                result = 0;
                 return result;
             }
         }
@@ -774,11 +774,11 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
             if(target_x <= position_x - range_x_min
                 && target_x >= position_x - range_x_max)
             {
-                result = DC_HANSBURG_FLAG_TRUE;
+                result = 1;
             }
             else
             {
-                result = DC_HANSBURG_FLAG_FALSE;
+                result = 0;
                 return result;
             }
         }
@@ -787,8 +787,8 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
     // If a target position Y is given, evaluate Y range.
     vartype = typeof(target_y);
 
-    if(vartype == DC_HANSBURG_VT_FLOAT
-       || vartype == DC_HANSBURG_VT_INTEGER)
+    if(vartype == openborconstant("VT_DECIMAL")
+       || vartype == openborconstant("VT_INTEGER"))
     {
         range_y_min = getentityproperty(ent, "range", "amin", animation);
         range_y_max = getentityproperty(ent, "range", "amax", animation);
@@ -802,11 +802,11 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
         if((target_y - position_y) >= range_y_min
 		  && (target_y - position_y) <= range_y_max)
         {
-            result = DC_HANSBURG_FLAG_TRUE;
+            result = 1;
         }
         else
         {
-            result = DC_HANSBURG_FLAG_FALSE;
+            result = 0;
             return result;
         }
     }
@@ -814,8 +814,8 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
     // If a target position Z is given, evaluate Z range.
     vartype = typeof(target_z);
 
-    if(vartype == DC_HANSBURG_VT_FLOAT
-       || vartype == DC_HANSBURG_VT_INTEGER)
+    if(vartype == openborconstant("VT_DECIMAL")
+       || vartype == openborconstant("VT_INTEGER"))
     {
         range_z_min = getentityproperty(ent, "range", "zmin", animation);
         range_z_max = getentityproperty(ent, "range", "zmax", animation);
@@ -830,11 +830,11 @@ int dc_hansburg_check_range_by_position(void ent, int animation, float target_x,
         if((target_z - position_z) >= range_z_min
 		  && (target_z - position_z) <= range_z_max)
         {
-            result = DC_HANSBURG_FLAG_TRUE;
+            result = 1;
         }
         else
         {
-            result = DC_HANSBURG_FLAG_FALSE;
+            result = 0;
             return result;
         }
     }
