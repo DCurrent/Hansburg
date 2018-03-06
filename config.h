@@ -65,18 +65,6 @@
     #define DC_HANSBURG_ANI_JUMP_RUN                openborconstant("ANI_RUNJUMP")      // Running jump animation.
     #define DC_HANSBURG_ANI_JUMP_WALK               openborconstant("ANI_FORWARDJUMP")  // Moving jump animation.
 
-    // System key flags.
-    #define DC_HANSBURG_KEY_ATTACK                  openborconstant("FLAG_ATTACK")      // Attack 1.
-    #define DC_HANSBURG_KEY_ATTACK_2                openborconstant("FLAG_ATTACK2")     // Attack 2.
-    #define DC_HANSBURG_KEY_ATTACK_3                openborconstant("FLAG_ATTACK3")     // Attack 3.
-    #define DC_HANSBURG_KEY_ATTACK_4                openborconstant("FLAG_ATTACK4")     // Attack 4.
-    #define DC_HANSBURG_KEY_ESCAPE                  openborconstant("FLAG_ESC")         // Escape.
-    #define DC_HANSBURG_KEY_JUMP                    openborconstant("FLAG_JUMP")        // Jump.
-    #define DC_HANSBURG_KEY_MOVE_LEFT               openborconstant("FLAG_MOVELEFT")    // Left.
-    #define DC_HANSBURG_KEY_MOVE_RIGHT              openborconstant("FLAG_MOVERIGHT")   // Right.
-    #define DC_HANSBURG_KEY_SCREENSHOT              openborconstant("FLAG_SCREENSHOT")  // Screen shot.
-    #define DC_HANSBURG_KEY_SPECIAL                 openborconstant("FLAG_SPECIAL")     // Special.
-
     // System variable types.
     #define DC_HANSBURG_VT_EMPTY                    openborconstant("VT_EMPTY")         // Empty (NULL).
     #define DC_HANSBURG_VT_FLOAT                    openborconstant("VT_DECIMAL")       // Floating decimal.

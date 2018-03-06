@@ -370,7 +370,7 @@ int dc_hansburg_aux_command_direction(void ent, int key_hold)
                 result = DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD;
             }
             // Holding key right?
-            else if(key_hold & DC_HANSBURG_KEY_MOVE_RIGHT)
+            else if(key_hold & openborconstant("FLAG_MOVERIGHT"))
             {
                 // Then this is the "back" key.
                 result = DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK;
@@ -389,7 +389,7 @@ int dc_hansburg_aux_command_direction(void ent, int key_hold)
                 result = DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK;
             }
             // Holding key right?
-            else if(key_hold & DC_HANSBURG_KEY_MOVE_RIGHT)
+            else if(key_hold & openborconstant("FLAG_MOVERIGHT"))
             {
                 // Then this is the "forward" key.
                 result = DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD;
