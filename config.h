@@ -45,10 +45,6 @@
     // Control flags
     #define DC_HANSBURG_TIME_INFINITE               -1                                  // True.
 
-    // General evaluation flags.
-    #define DC_HANSBURG_FLAG_FALSE                  0                                   // True.
-    #define DC_HANSBURG_FLAG_TRUE                   1                                   // False.
-
     // System direction flags.
     #define DC_HANSBURG_DIRECTION_LEFT	            0                                   // Left.
     #define DC_HANSBURG_DIRECTION_RIGHT             1                                   // Right.

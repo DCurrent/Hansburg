@@ -53,7 +53,7 @@ void main()
     // might not want to. But unless you intend to use the
     // Jump key for other things in conjunction with the
     // auxiliary jumping system, it's a good idea.
-    if(aux_jump != DC_HANSBURG_FLAG_FALSE)
+    if(aux_jump != 0)
     {
         // Remove the jump command from key press.
         player_key_press = player_key_press - openborconstant("FLAG_JUMP");
