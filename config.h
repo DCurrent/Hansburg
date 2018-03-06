@@ -61,13 +61,6 @@
     #define DC_HANSBURG_ANI_JUMP_RUN                openborconstant("ANI_RUNJUMP")      // Running jump animation.
     #define DC_HANSBURG_ANI_JUMP_WALK               openborconstant("ANI_FORWARDJUMP")  // Moving jump animation.
 
-    // System variable types.
-    #define DC_HANSBURG_VT_EMPTY                    openborconstant("VT_EMPTY")         // Empty (NULL).
-    #define DC_HANSBURG_VT_FLOAT                    openborconstant("VT_DECIMAL")       // Floating decimal.
-    #define DC_HANSBURG_VT_INTEGER                  openborconstant("VT_INTEGER")       // Integer.
-    #define DC_HANSBURG_VT_POINTER                  openborconstant("VT_PTR")           // Pointer.
-    #define DC_HANSBURG_VT_STRING                   openborconstant("VT_STRING")        // String.
-
     // Forward/Backward command status in relation to facing.
     #define DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK    1                                   // Back.
     #define DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD 2                                   // Forward.
