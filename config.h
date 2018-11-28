@@ -37,19 +37,9 @@
 // Leave the rest of these alone unless you really
 // know what you're doing.
 
-#define DC_HANSBURG_JUMP                        1
-
 // Control flags
 #define DC_HANSBURG_TIME_INFINITE               -1                                  // True.
 
-// System direction flags.
-#define DC_HANSBURG_DIRECTION_LEFT	            0                                   // Left.
-#define DC_HANSBURG_DIRECTION_RIGHT             1                                   // Right.
-
-// System animations.
-#define DC_HANSBURG_ANI_JUMP                    openborconstant("ANI_JUMP")         // Jumping animation.
-#define DC_HANSBURG_ANI_JUMP_RUN                openborconstant("ANI_RUNJUMP")      // Running jump animation.
-#define DC_HANSBURG_ANI_JUMP_WALK               openborconstant("ANI_FORWARDJUMP")  // Moving jump animation.
 
 // Forward/Backward command status in relation to facing.
 #define DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK    1                                   // Back.
