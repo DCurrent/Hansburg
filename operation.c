@@ -1,10 +1,6 @@
 #include "data/scripts/dc_hansburg/config.h"
 
-// Script var accessors
-void dc_hansburg_get_entity()
-{
-    return getscriptvar(DC_HANSBURG_VAR_KEY_ENT);
-}
+#import "data/scripts/dc_hansburg/entity.h"
 
 int dc_hansburg_get_key_hold()
 {
@@ -19,24 +15,6 @@ int dc_hansburg_get_key_press()
 float dc_hansburg_get_max_height()
 {
     return getscriptvar(DC_HANSBURG_VAR_KEY_MAX_HEIGHT);
-}
-
-// Script var mutators
-void dc_hansburg_set_entity(void value)
-{
-    int vartype = NULL();
-
-    vartype = typeof(value);
-
-    // Catch bad arguments here.
-    if(vartype != openborconstant("VT_PTR")
-       && vartype != openborconstant("VT_EMPTY"))
-    {
-        log("\n\n error: dc_hansburg_set_entity(void value): {value} argument is an invalid type. Pointer is required.");
-        return;
-    }
-
-    setscriptvar(DC_HANSBURG_VAR_KEY_ENT, value);
 }
 
 void dc_hansburg_set_key_hold(int value)
@@ -150,7 +128,7 @@ int dc_hansburg_disable_check()
 // the animation set, or 0 if none.
 int dc_hansburg_execute(){
 
-    void    ent             = NULL();    // Entity controlled by player index.
+    void    ent;						// Entity controlled by player index.
     int     key_press       = 0;        // Key press triggering event.
 	int     key_hold        = 0;        // Keys currently held when event was triggered.
 	int     direction       = DC_HANSBURG_DIRECTION_RIGHT;    // Current facing.
@@ -167,17 +145,15 @@ int dc_hansburg_execute(){
     float   maximum_height  = DC_HANSBURG_MAXIMUM_HEIGHT;     // Maximum height to allow auxiliary jumps.
     int     vartype         = openborconstant("VT_EMPTY");           // Variable type.
 
-	// Target entity.
-	ent             = dc_hansburg_get_entity();
-    vartype         = typeof(ent);
+	// Get acting entity.
+	ent = dc_hansburg_get_entity();
 
     // Get current key press and any keys being held.
     key_hold        = dc_hansburg_get_key_hold();
     key_press       = dc_hansburg_get_key_press();
 
 	// Is this a jump key press and a valid entity pointer?
-	if(key_press & openborconstant("FLAG_JUMP")
-        && vartype == openborconstant("VT_PTR"))
+	if(key_press & openborconstant("FLAG_JUMP"))
 	{
 	    // Let's get the entity properties we'll need.
 	    animation_id    = getentityproperty(ent, "animationid");
