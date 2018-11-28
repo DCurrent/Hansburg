@@ -3,7 +3,7 @@
 // Script var accessors
 void dc_hansburg_get_entity()
 {
-    return getscriptvar(DC_HANSBURG_VAR_KEY_ENTITY);
+    return getscriptvar(DC_HANSBURG_VAR_KEY_ENT);
 }
 
 int dc_hansburg_get_key_hold()
@@ -36,7 +36,7 @@ void dc_hansburg_set_entity(void value)
         return;
     }
 
-    setscriptvar(DC_HANSBURG_VAR_KEY_ENTITY, value);
+    setscriptvar(DC_HANSBURG_VAR_KEY_ENT, value);
 }
 
 void dc_hansburg_set_key_hold(int value)
@@ -192,7 +192,7 @@ int dc_hansburg_execute(){
         if(vartype != openborconstant("VT_DECIMAL")
            && vartype != openborconstant("VT_INTEGER"))
         {
-            maximum_height = DC_HANSBURG_MAXIMUM_HEIGHT;
+            maximum_height = DC_HANSBURG_DEFAULT_MAX_HEIGHT;
         }
 
         // If current Y position is beyond maximum height, then

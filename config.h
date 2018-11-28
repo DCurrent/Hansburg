@@ -6,17 +6,7 @@
 // These are the attributes you will use to configure the auxiliary
 // jumping system.
 
-// This is the maximum height the jumping system allows. Auxiliary
-// jump commands will be ignored until the entity falls back below maximum
-// height. This is to stop characters from climbing or jumping beyond the
-// design boundaries of your stage and possibly getting stuck. You can use
-// any value you like. Note you can temporarily override this setting by
-// using the dc_hansburg_set_max_height() command.
-#define DC_HANSBURG_MAXIMUM_HEIGHT              openborvariant("hResolution") * 1.25    // Maximum height to allow auxiliary jumps.
-
-// These are the auxiliary jumping animations. Settings here are module wide.
-// For example, whatever animation you set for double jumping here must be used
-// by every model you want to have double jumping capability. If a model does not
+// These are the auxiliary jumping animations. If a model does not
 // have one of these animations, then it simply does not have the associated
 // jumping capability. You can mix and match how you like. In other words, a model
 // might not have a wall jump, but could still have double jumping. Another model
@@ -35,6 +25,14 @@
 #define DC_HANSBURG_ANI_JUMP_OBJECT_START       openborconstant("ANI_FOLLOW40")     // Obstacle prepping to jump animation. The range of this animation is used to detect objects.
 #define DC_HANSBURG_ANI_JUMP_WALL               openborconstant("ANI_FOLLOW41")     // Wall jump animation.
 #define DC_HANSBURG_ANI_JUMP_WALL_START         openborconstant("ANI_FOLLOW40")     // Wall prepping to jump animation.   The range of this animation is used to detect walls.
+
+// Defaults.
+#define DC_HANSBURG_DEFAULT_INSTANCE			0
+#define DC_HANSBURG_DEFAULT_DISABLE				0
+#define DC_HANSBURG_DEFAULT_ENT					getlocalvar("self")
+#define DC_HANSBURG_DEFAULT_KEY_HOLD			0
+#define DC_HANSBURG_DEFAULT_KEY_PRESS			0
+#define DC_HANSBURG_DEFAULT_MAX_HEIGHT			openborvariant("vResolution") * 1.25		
 
 //*****End User Settings.*****
 //
@@ -64,7 +62,7 @@
 #define DC_HANSBURG_VAR_KEY_BASE_ID		"dchansb"	// Base name of every var ID. Must be unique vs. all other libraries.
 #define DC_HANSBURG_VAR_KEY_INSTANCE	DC_HANSBURG_VAR_KEY_BASE_ID + 0
 #define DC_HANSBURG_VAR_KEY_DISABLE		DC_HANSBURG_VAR_KEY_BASE_ID + 1	// Disable auxiliary jumping.
-#define DC_HANSBURG_VAR_KEY_ENTITY		DC_HANSBURG_VAR_KEY_BASE_ID + 2	// Entity.
+#define DC_HANSBURG_VAR_KEY_ENT			DC_HANSBURG_VAR_KEY_BASE_ID + 2	// Entity.
 #define DC_HANSBURG_VAR_KEY_KEY_HOLD	DC_HANSBURG_VAR_KEY_BASE_ID + 3	// Key hold.
 #define DC_HANSBURG_VAR_KEY_KEY_PRESS	DC_HANSBURG_VAR_KEY_BASE_ID + 4	// Key press.
 #define DC_HANSBURG_VAR_KEY_MAX_HEIGHT	DC_HANSBURG_VAR_KEY_BASE_ID + 5	// Temporary maximum height.
