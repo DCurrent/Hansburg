@@ -2,51 +2,9 @@
 
 #import "data/scripts/dc_hansburg/entity.h"
 
-int dc_hansburg_get_key_hold()
-{
-    return getscriptvar(DC_HANSBURG_VAR_KEY_KEY_HOLD);
-}
-
-int dc_hansburg_get_key_press()
-{
-    return getscriptvar(DC_HANSBURG_VAR_KEY_KEY_PRESS);
-}
-
 float dc_hansburg_get_max_height()
 {
     return getscriptvar(DC_HANSBURG_VAR_KEY_MAX_HEIGHT);
-}
-
-void dc_hansburg_set_key_hold(int value)
-{
-    int vartype = NULL();
-
-    vartype = typeof(value);
-
-    // Catch bad arguments here.
-    if(vartype != openborconstant("VT_INTEGER"))
-    {
-        log("\n\n error: dc_hansburg_set_key_hold(int value): {value} argument is an invalid type. Integer is required.");
-        return;
-    }
-
-    setscriptvar(DC_HANSBURG_VAR_KEY_KEY_HOLD, value);
-}
-
-void dc_hansburg_set_key_press(int value)
-{
-    int vartype = NULL();
-
-    vartype = typeof(value);
-
-    // Catch bad arguments here.
-    if(vartype != openborconstant("VT_INTEGER"))
-    {
-        log("\n\n error: dc_hansburg_set_key_press(int value): {value} argument is an invalid type. Integer is required.");
-        return;
-    }
-
-    setscriptvar(DC_HANSBURG_VAR_KEY_KEY_PRESS, value);
 }
 
 void dc_hansburg_set_max_height(float value)
@@ -128,8 +86,9 @@ int dc_hansburg_disable_check()
 // the animation set, or 0 if none.
 int dc_hansburg_execute(){
 
-    void    ent;						// Entity controlled by player index.
-    int     key_press       = 0;        // Key press triggering event.
+    void    ent;			// Entity controlled by player index.
+	int		play_index;		// Player index controlling entity.
+	int     key_press       = 0;        // Key press triggering event.
 	int     key_hold        = 0;        // Keys currently held when event was triggered.
 	int     direction       = DC_HANSBURG_DIRECTION_RIGHT;    // Current facing.
 	int     cmd_direction   = DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL;  // Current directional command hold from player in relation to entity's facing.
@@ -148,9 +107,12 @@ int dc_hansburg_execute(){
 	// Get acting entity.
 	ent = dc_hansburg_get_entity();
 
-    // Get current key press and any keys being held.
-    key_hold        = dc_hansburg_get_key_hold();
-    key_press       = dc_hansburg_get_key_press();
+	// Get the player index.
+	player_index = getentityproperty(ent, "playerindex");
+
+    // Get key status.
+    key_hold        = getplayerproperty(player_index, "newkeys");
+    key_press       = getplayerproperty(player_index, "keys");
 
 	// Is this a jump key press and a valid entity pointer?
 	if(key_press & openborconstant("FLAG_JUMP"))
