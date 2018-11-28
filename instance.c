@@ -3,9 +3,11 @@
 // Which instance is in use?
 int dc_hansburg_get_instance()
 {
-	void result = getlocalvar(DC_HANSBURG_VAR_KEY_INSTANCE);
+	int result;
+		
+	result = getlocalvar(DC_HANSBURG_VAR_KEY_INSTANCE);
 
-	if (!result)
+	if (typeof(result) != openborconstant("VT_INTEGER"))
 	{
 		result = DC_HANSBURG_DEFAULT_INSTANCE;
 	}
