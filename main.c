@@ -1,4 +1,6 @@
 #include    "data/scripts/dc_hansburg/config.h"
+
+#import     "data/scripts/dc_hansburg/instance.c"
 #import     "data/scripts/dc_hansburg/operation.c"
 
 /*
