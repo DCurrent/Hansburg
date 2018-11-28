@@ -10,7 +10,7 @@
 int dc_hansburg_execute(){
 
     void    ent;			// Entity controlled by player index.
-	int		play_index;		// Player index controlling entity.
+	int		player_index;	// Player index controlling entity.
 	int     key_press       = 0;        // Key press triggering event.
 	int     key_hold        = 0;        // Keys currently held when event was triggered.
 	int     direction       = DC_HANSBURG_DIRECTION_RIGHT;    // Current facing.
@@ -24,7 +24,7 @@ int dc_hansburg_execute(){
     int     obstacle_x      = 0;        // Obstacle check position, X axis.
     int     animation_set   = 0;        // Animation to perform.
     float   position_x_set  = 0.0;      // Position to set, X axis.
-    float   maximum_height  = DC_HANSBURG_MAXIMUM_HEIGHT;     // Maximum height to allow auxiliary jumps.
+    float   maximum_height;	// Maximum height to allow auxiliary jumps.
     int     vartype         = openborconstant("VT_EMPTY");           // Variable type.
 
 	// Get acting entity.
