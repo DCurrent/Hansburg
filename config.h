@@ -30,8 +30,6 @@
 #define DC_HANSBURG_DEFAULT_INSTANCE			0
 #define DC_HANSBURG_DEFAULT_DISABLE				0
 #define DC_HANSBURG_DEFAULT_ENT					getlocalvar("self")
-#define DC_HANSBURG_DEFAULT_KEY_HOLD			0
-#define DC_HANSBURG_DEFAULT_KEY_PRESS			0
 #define DC_HANSBURG_DEFAULT_MAX_HEIGHT			openborvariant("vResolution") * 1.25		
 
 //*****End User Settings.*****
@@ -63,10 +61,8 @@
 #define DC_HANSBURG_VAR_KEY_INSTANCE	DC_HANSBURG_VAR_KEY_BASE_ID + 0
 #define DC_HANSBURG_VAR_KEY_DISABLE		DC_HANSBURG_VAR_KEY_BASE_ID + 1	// Disable auxiliary jumping.
 #define DC_HANSBURG_VAR_KEY_ENT			DC_HANSBURG_VAR_KEY_BASE_ID + 2	// Entity.
-#define DC_HANSBURG_VAR_KEY_KEY_HOLD	DC_HANSBURG_VAR_KEY_BASE_ID + 3	// Key hold.
-#define DC_HANSBURG_VAR_KEY_KEY_PRESS	DC_HANSBURG_VAR_KEY_BASE_ID + 4	// Key press.
-#define DC_HANSBURG_VAR_KEY_MAX_HEIGHT	DC_HANSBURG_VAR_KEY_BASE_ID + 5	// Temporary maximum height.
-#define DC_HANSBURG_VAR_KEY_THE_END		6			// Should always last, with a value one higher than previous key ID.
+#define DC_HANSBURG_VAR_KEY_MAX_HEIGHT	DC_HANSBURG_VAR_KEY_BASE_ID + 3	// Temporary maximum height.
+#define DC_HANSBURG_VAR_KEY_THE_END		4			// Should always last, with a value one higher than previous key ID.
 
 #endif
 
