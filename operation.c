@@ -25,8 +25,7 @@ int dc_hansburg_execute(){
     int     animation_set   = 0;        // Animation to perform.
     float   position_x_set  = 0.0;      // Position to set, X axis.
     float   maximum_height;	// Maximum height to allow auxiliary jumps.
-    int     vartype         = openborconstant("VT_EMPTY");           // Variable type.
-
+    
 	// Get acting entity.
 	ent = dc_hansburg_get_entity();
 
@@ -48,13 +47,6 @@ int dc_hansburg_execute(){
         // Now let's see if there is a temporary maximum height set.
         // If not, we use the default.
         maximum_height  = dc_hansburg_get_max_height();
-        vartype         = typeof(maximum_height);
-
-        if(vartype != openborconstant("VT_DECIMAL")
-           && vartype != openborconstant("VT_INTEGER"))
-        {
-            maximum_height = DC_HANSBURG_DEFAULT_MAX_HEIGHT;
-        }
 
         // If current Y position is beyond maximum height, then
         // exit. We don't want to do anything else.
