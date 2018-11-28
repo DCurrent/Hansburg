@@ -2,26 +2,32 @@
 
 #import "data/scripts/dc_hansburg/instance.c"
 
-float dc_hansburg_get_max_height()
+int dc_hansburg_get_max_height()
 {
-	return getscriptvar(DC_HANSBURG_VAR_KEY_MAX_HEIGHT);
-}
+	int instance;
+	int result; 
+	
+	instance = dc_hansburg_get_instance();
 
-void dc_hansburg_set_max_height(float value)
-{
-	int vartype = NULL();
+	result = getlocalvar(instance + DC_HANSBURG_VAR_KEY_MAX_HEIGHT);
 
-	vartype = typeof(value);
-
-	// Catch bad arguments here.
-	if (vartype != openborconstant("VT_DECIMAL")
-		&& vartype != openborconstant("VT_INTEGER"))
+	if (typeof(result) != openborconstant("VT_INTEGER"))
 	{
-		log("\n\n error: dc_hansburg_set_max_height(float value): {value} argument is an invalid type. Floating decimal or integer is required.");
-		return;
+		result = DC_HANSBURG_DEFAULT_MAX_HEIGHT;
 	}
 
-	setscriptvar(DC_HANSBURG_VAR_KEY_MAX_HEIGHT, value);
+	return result;
+}
+
+void dc_hansburg_set_max_height(int value)
+{
+	int instance;
+
+	// Get instance.
+	instance = dc_hansburg_get_instance();
+
+	// Set value.
+	setlocalvar(instance + DC_HANSBURG_VAR_KEY_MAX_HEIGHT, value);
 }
 
 void dc_hansburg_set_disable_time(int value)
