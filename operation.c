@@ -370,12 +370,10 @@ int dc_hansburg_find_wall_x(void ent, int animation_id)
 
 // Get X position of screen edge if found within X range of
 // animation.
-int dc_hansburg_find_edge_x(void ent, int animation)
-{
-    // ent: Entity to perform range check.
-    // animation_id: Animation to get range settings from.
-
-    int result              = 0;   // Final result.
+int dc_hansburg_find_edge_x(int animation)
+{	
+	void ent;				// Acting entity.
+    int result;				// Final result.
     int in_range            = 0;   // Target in range.
     int animation_valid     = 0;   // Animation exists flag.
     int scroll_x            = 0;  // Screen scroll position.
@@ -383,13 +381,7 @@ int dc_hansburg_find_edge_x(void ent, int animation)
     int vartype             = openborconstant("VT_EMPTY");     // Variable type.
     int anim_valid          = 0;   // Valid animation?
 
-    // Verify valid entity.
-    vartype = typeof(ent);
-
-    if(vartype != openborconstant("VT_PTR"))
-    {
-        return result;
-    }
+	ent = dc_hansburg_get_entity();
 
     // Verify animation was provided.
     vartype = typeof(animation);
