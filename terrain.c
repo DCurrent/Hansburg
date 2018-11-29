@@ -144,15 +144,16 @@ int dc_hansburg_find_edge_x(int animation)
 	scroll_x = openborvariant("xpos");
 	far_x = scroll_x + openborvariant("hResolution");
 
-	// In range of near screen position?
-	if (dc_hansburg_range_by_position(ent, animation, scroll_x))
+	// Is scroll X in range of near screen position? Then
+	// we can scroll X. Just in case scroll X is in range
+	// but still 0, we'll return 1 instead.
+	if (dc_hansburg_check_in_range_x(animation, scroll_x))
 	{
-		result = scroll_x;
-
-		// Just in case the scroll position hasn't moved at all
-		// but is still within range, return 1 instead of 0 so
-		// evaluations won't fail.
-		if (scroll_x == 0.0)
+		if (scroll_x)
+		{
+			result = scroll_x;
+		}
+		else
 		{
 			result = 1;
 		}
@@ -160,14 +161,14 @@ int dc_hansburg_find_edge_x(int animation)
 		return result;
 	}
 
-	// Same check, but this time for the far edge of screen.
-	if (dc_hansburg_range_by_position(ent, animation, far_x))
+	// Same as above, but this time for the far edge of screen.
+	if (dc_hansburg_check_in_range_x(animation, far_x))
 	{
-		result = far_x;
-
-		// Just in case the case the end result is still 0,
-		// we'll adjust it to 1 so evaluations don't fail.
-		if (result == 0.0)
+		if (far_x)
+		{
+			result = far_x;
+		}
+		else
 		{
 			result = 1;
 		}
@@ -251,22 +252,25 @@ void dc_hansburg_check_in_range_x(int animation, float pos_target)
 	float pos_current;	// Current entity position.
 
 	// Get action ent and position.
-
 	ent = dc_hansburg_get_entity();
 	pos_current = getentityproperty(ent, "x");
+
+	// Verify animation provided is valid.
+	if (!getentityproperty(ent, "animvalid", animation))
+	{
+		return 0;
+	}
 
 	// Get ranges. We're doing the range check
 	// manually, so our range needs to combine
 	// range settings from an animation with
 	// the acting entity's current position.
-	
 	range_min = pos_current + getentityproperty(ent, "range", "xmin", animation);
 	range_max = pos_current + getentityproperty(ent, "range", "xmax", animation);
 
 	// If the target position is less than 
 	// the minimum or greater than the maximum,
 	// return false immediately.
-
 	if (pos_target < range_min)
 	{
 		return 0;
@@ -279,7 +283,6 @@ void dc_hansburg_check_in_range_x(int animation, float pos_target)
 
 	// If we passed all checks, then
 	// we can resturn a true result.
-	
 	return 1;
 }
 
