@@ -127,7 +127,6 @@ int dc_hansburg_find_edge_x(int animation)
 {
 	void ent;		// Acting entity.
 	int result;		// Final result.
-	int in_range;   // Target in range.
 	int scroll_x;	// Screen scroll position.
 	int far_x;		// Location of far screen edge.
 	
@@ -148,16 +147,14 @@ int dc_hansburg_find_edge_x(int animation)
 	// In range of near screen position?
 	if (dc_hansburg_range_by_position(ent, animation, scroll_x))
 	{
+		result = scroll_x;
+
 		// Just in case the scroll position hasn't moved at all
 		// but is still within range, return 1 instead of 0 so
 		// evaluations won't fail.
 		if (scroll_x == 0.0)
 		{
 			result = 1;
-		}
-		else
-		{
-			result = scroll_x;
 		}
 
 		return result;
