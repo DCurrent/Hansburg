@@ -1,6 +1,7 @@
 #include "data/scripts/dc_hansburg/config.h"
 
 #import "data/scripts/dc_hansburg/entity.c"
+#import "data/scripts/dc_hansburg/instance.c"
 
 // Returns x position of closest wall within animation range.
 int dc_hansburg_find_wall_x(int animation_id)
@@ -150,7 +151,18 @@ int dc_hansburg_find_edge_x(int animation)
 	// Is scroll X in range of near screen position? Then
 	// we can scroll X. Just in case scroll X is in range
 	// but still 0, we'll return 1 instead.
-	if (dc_hansburg_check_in_range_x(animation, scroll_x))
+	
+	// Set up dc_target to use same instance, entity,
+	// and target animation.
+	dc_target_set_instance(dc_hansburg_get_instance());
+	dc_target_set_entity(dc_hansburg_get_entity());
+	dc_target_set_animation(animation);
+	
+	// Use scroll X for the target position.
+	dc_target_set_offset_x(scroll_x);
+	
+	// Run the check and set result accordingly.
+	if (dc_target_check_position_in_range_x())
 	{
 		if (scroll_x)
 		{
@@ -165,7 +177,10 @@ int dc_hansburg_find_edge_x(int animation)
 	}
 
 	// Same as above, but this time for the far edge of screen.
-	if (dc_hansburg_check_in_range_x(animation, far_x))
+
+	dc_target_set_offset_x(far_x);
+
+	if (dc_target_check_position_in_range_x())
 	{
 		if (far_x)
 		{
