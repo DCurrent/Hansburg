@@ -2,6 +2,7 @@
 
 #import "data/scripts/dc_hansburg/command.c"
 #import "data/scripts/dc_hansburg/entity.c"
+#import "data/scripts/dc_hansburg/instance.c"
 #import "data/scripts/dc_hansburg/limits.c"
 #import "data/scripts/dc_hansburg/terrain.c"
 
@@ -71,11 +72,21 @@ int dc_hansburg_execute(){
             || animation_id == DC_HANSBURG_ANI_JUMP_DOUBLE_NEUTRAL)
 		{
 
+			
+
             // We'll need to get the x position of any possible walls
             // or edges within range of our alternate jump animations.
+			
+			// Set up dc_target to use same instance and entity.
+			dc_target_set_instance(dc_hansburg_get_instance());
+			dc_target_set_entity(dc_hansburg_get_entity());
+
             edge_x      = dc_hansburg_find_edge_x(DC_HANSBURG_ANI_JUMP_EDGE_START);
             wall_x      = dc_hansburg_find_wall_x(DC_HANSBURG_ANI_JUMP_WALL_START);
-            obstacle_x  = dc_hansburg_find_obstacle_x(ent, DC_HANSBURG_ANI_JUMP_OBJECT_START);
+
+			// Obstacle?			
+			dc_target_set_animation(DC_HANSBURG_ANI_JUMP_OBJECT_START);
+            obstacle_x  = dc_target_find_obstacle_x();
 
             if(obstacle_x)
             {
