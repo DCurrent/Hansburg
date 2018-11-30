@@ -1,6 +1,10 @@
 #ifndef DC_HANSBURG_CONFIG
 #define DC_HANSBURG_CONFIG 1
 
+// Dependencies
+#include "data/scripts/dc_target/main.c"
+
+
 // *****Configuration*****
 //
 // These are the attributes you will use to configure the auxiliary
