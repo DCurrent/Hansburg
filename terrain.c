@@ -199,31 +199,33 @@ int dc_hansburg_find_edge_x(int animation)
 }
 
 // Returns x position of first obstacle in range of animation.
-int dc_hansburg_find_obstacle_x(void ent, int animation_id) {
+int dc_hansburg_find_obstacle_x(void ent, int animation) {
 
-	int     result = 0;          // Final result.
-	int     animation_valid = 0;           // Animation exists flag.
-	float   target_x = 0.0;        // Position of entity on X axis.
-	float   target_y = 0.0;        // Position of entity on Y axis.
-	float   target_z = 0.0;        // Position of entity on Z axis.
-	int     target_h = 0;          // Target's height setting.
-	void    target = NULL();      // Target entity pointer.
-	int     target_count = 0;          // Target Entity count.
-	int     i = 0;          // Loop counter.
-	int     in_range = 0;           // Target in range?
-	int     type = openborconstant("TYPE_OBSTACLE");        // Type of entity.
+	int     result;			// Final result.
+	float   target_x;		// Position of entity on X axis.
+	float   target_y;		// Position of entity on Y axis.
+	float   target_z;		// Position of entity on Z axis.
+	int     target_h;		// Target's height setting.
+	void    target;			// Target entity pointer.
+	int     target_count;	// Target Entity count.
+	int     i;				// Loop cursor.
+		
 
 	// If this entity doesn't have the animation at all,
 	// then exit. There's nothing else to do.
-	animation_valid = getentityproperty(ent, "animvalid", animation_id);
-
-	if (animation_valid == 0)
+	if (!getentityproperty(ent, "animvalid", animation))
 	{
 		return result;
 	}
 
 	// Get entity count.
-	target_count = openborvariant("ent_max");
+	target_count = openborvariant("count_entities");
+
+	// Set up dc_target to use same instance, entity,
+	// and target animation.
+	dc_target_set_instance(dc_hansburg_get_instance());
+	dc_target_set_entity(dc_hansburg_get_entity());
+	dc_target_set_animation(animation);
 
 	// Loop over each entity index.
 	for (i = 0; i < target_count; i++)
@@ -231,6 +233,15 @@ int dc_hansburg_find_obstacle_x(void ent, int animation_id) {
 		// Get entity pointer.
 		target = getentity(i);
 
+		// If the target is not an obstacle, then
+		// we're already done with this iteration
+		// of the loop.
+		if (getentityproperty(target, "type") != openborconstant("TYPE_OBSTACLE"))
+		{
+			continue;
+		}
+
+		// Get target location.
 		target_x = getentityproperty(target, "x");
 		target_y = getentityproperty(target, "y");
 		target_z = getentityproperty(target, "z");
@@ -239,22 +250,40 @@ int dc_hansburg_find_obstacle_x(void ent, int animation_id) {
 		// Add height to target's Y position.
 		target_y += target_h;
 
-		// Is the target in range and an obstacle?
+		// If the target falls out off any range, 
+		// it's not a valid target, so get out of 
+		// this loop iteration.
+	
+		dc_target_set_offset_z(target_z);
 
-		in_range = dc_hansburg_range_by_position(ent, animation_id, target_x, target_y, target_z);
-
-		type = getentityproperty(target, "type");
-
-		if (in_range == 1 && type == openborconstant("TYPE_OBSTACLE"))
+		if (!dc_target_check_position_in_range_z())
 		{
-			// Get the current target x position, then exit loop.
-			result = getentityproperty(target, "x");
-			break;
+			continue;
 		}
 
-	}
-	return result;
+		dc_target_set_offset_x(target_x);
 
+		if (!dc_target_check_position_in_range_x())
+		{
+			continue;
+		}
+
+		dc_target_set_offset_y(target_y);
+
+		if (!dc_target_check_position_in_range_y())
+		{
+			continue;
+		}
+		
+		// If we'e made it this far, we've found a valid
+		// target. Use the current target x position as
+		// a result and exit loop.
+		result = target_x;
+		break;
+	}
+
+	// Return final result.
+	return result;
 }
 
 // Perform a manual range check vs. given coordinates.
