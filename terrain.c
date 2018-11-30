@@ -308,53 +308,6 @@ void dc_hansburg_check_in_range_base(int animation, float pos_target)
 // 2018-11-29 (breakdown of orginal from 2017-03-18)
 //
 // Return true if target position is 
-// within animation's Y range.
-void dc_hansburg_check_in_range_y(int animation, float pos_target)
-{
-	void ent;			// Acting entity.
-	int range_min;		// Minimum range.
-	int range_max;		// Maximum range.
-	float pos_current;	// Current entity position.
-
-	// Get action ent and position.
-	ent = dc_hansburg_get_entity();
-	pos_current = getentityproperty(ent, "y");
-
-	// Verify animation provided is valid.
-	if (!getentityproperty(ent, "animvalid", animation))
-	{
-		return 0;
-	}
-
-	// Get ranges. We're doing the range check
-	// manually, so our range needs to combine
-	// range settings from an animation with
-	// the acting entity's current position.
-	range_min = pos_current + getentityproperty(ent, "range", "amin", animation);
-	range_max = pos_current + getentityproperty(ent, "range", "amax", animation);
-
-	// If the target position is less than 
-	// the minimum or greater than the maximum,
-	// return false immediately.
-	if (pos_target < range_min)
-	{
-		return 0;
-	}
-
-	if (pos_target > range_max)
-	{
-		return 0;
-	}
-
-	// If we passed all checks, then
-	// we can resturn a true result.
-	return 1;
-}
-
-// Caskey, Damon V.
-// 2018-11-29 (breakdown of orginal from 2017-03-18)
-//
-// Return true if target position is 
 // within animation's Z range.
 void dc_hansburg_check_in_range_z(int animation, float pos_target)
 {
