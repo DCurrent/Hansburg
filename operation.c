@@ -24,7 +24,8 @@ int dc_hansburg_execute(){
 	int     animation_valid = 0;         // Flag indicating entity has an animation.
     float   edge_x          = 0.0;      // Edge check position, X axis.
     int     wall_x          = 0;        // Wall check position, X axis.
-    int     obstacle_x      = 0;        // Obstacle check position, X axis.
+	void	obstacle;
+	int     obstacle_x;
     int     animation_set   = 0;        // Animation to perform.
     float   position_x_set  = 0.0;      // Position to set, X axis.
     float   maximum_height;	// Maximum height to allow auxiliary jumps.
@@ -86,10 +87,12 @@ int dc_hansburg_execute(){
 
 			// Obstacle?			
 			dc_target_set_animation(DC_HANSBURG_ANI_JUMP_OBJECT_START);
-            obstacle_x  = dc_target_find_obstacle_x();
+            obstacle  = dc_target_find_obstacle();
 
-            if(obstacle_x)
+            if(obstacle)
             {
+				obstacle_x = getentityproperty(obstacle, "x");
+
                 // prepare animation.
                 animation_set   = DC_HANSBURG_ANI_JUMP_OBJECT_START;
 
