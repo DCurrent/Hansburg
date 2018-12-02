@@ -82,7 +82,7 @@ int dc_hansburg_execute(){
 			dc_target_set_instance(dc_hansburg_get_instance());
 			dc_target_set_entity(dc_hansburg_get_entity());
 
-            edge_x      = dc_hansburg_find_edge_x(DC_HANSBURG_ANI_JUMP_EDGE_START);
+            edge_x      = dc_target_find_edge_x(DC_HANSBURG_ANI_JUMP_EDGE_START);
             wall_x      = dc_hansburg_find_wall_x(DC_HANSBURG_ANI_JUMP_WALL_START);
 
 			// Obstacle?			
