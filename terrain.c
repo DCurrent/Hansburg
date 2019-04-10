@@ -1,7 +1,6 @@
 #include "data/scripts/dc_hansburg/config.h"
 
 #import "data/scripts/dc_hansburg/entity.c"
-#import "data/scripts/dc_hansburg/instance.c"
 
 // Returns x position of closest wall within animation range.
 int dc_hansburg_find_wall_x(int animation_id)

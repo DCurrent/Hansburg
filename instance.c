@@ -62,7 +62,7 @@ void dc_hansburg_free_instance()
 	for (i = 0; i < DC_HANSBURG_VAR_KEY_THE_END; i++)
 	{
 		// Concatenate the variable ID.
-		id = instance + DC_HANSBURG_VAR_KEY_BASE_ID + i;
+		id = instance + DC_HANSBURG_BASE_ID + i;
 
 		// Delete variable.
 		setlocalvar(id, NULL());
@@ -83,14 +83,14 @@ void dc_hansburg_dump_instance()
 	instance = dc_hansburg_get_instance();
 
 	// Log base name and instance.
-	log("\n\n " + DC_HANSBURG_VAR_KEY_BASE_ID + " dump:");
+	log("\n\n " + DC_HANSBURG_BASE_ID + " dump:");
 	log("\n\t " + "Instance: " + instance);
 
 	// Loop from 0 to end count of instance variables.
 	for (i = 0; i < DC_HANSBURG_VAR_KEY_THE_END; i++)
 	{
 		// Concatenate the variable ID.
-		id = instance + DC_HANSBURG_VAR_KEY_BASE_ID + i;
+		id = instance + DC_HANSBURG_BASE_ID + i;
 
 		// Log ID.
 		log("\n\t " + id + ": ");
@@ -123,7 +123,7 @@ void dc_hansburg_export_instance()
 	for (i = 0; i < DC_HANSBURG_VAR_KEY_THE_END; i++)
 	{
 		// Concatenate the variable ID.
-		id = instance + DC_HANSBURG_VAR_KEY_BASE_ID + i;
+		id = instance + DC_HANSBURG_BASE_ID + i;
 
 		// Get local (library) value.
 		value = getlocalvar(id);
@@ -152,7 +152,7 @@ void dc_hansburg_import_instance()
 	for (i = 0; i < DC_HANSBURG_VAR_KEY_THE_END; i++)
 	{
 		// Concatenate the variable ID.
-		id = instance + DC_HANSBURG_VAR_KEY_BASE_ID + i;
+		id = instance + DC_HANSBURG_BASE_ID + i;
 
 		// Get value
 		value = getglobalvar(id);
@@ -179,7 +179,7 @@ void dc_hansburg_free_export()
 	for (i = 0; i < DC_HANSBURG_VAR_KEY_THE_END; i++)
 	{
 		// Concatenate the variable ID.
-		id = instance + DC_HANSBURG_VAR_KEY_BASE_ID + i;
+		id = instance + DC_HANSBURG_BASE_ID + i;
 
 		// Delete the global variable.
 		setglobalvar(id, NULL());

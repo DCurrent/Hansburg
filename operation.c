@@ -2,7 +2,6 @@
 
 #import "data/scripts/dc_hansburg/command.c"
 #import "data/scripts/dc_hansburg/entity.c"
-#import "data/scripts/dc_hansburg/instance.c"
 #import "data/scripts/dc_hansburg/limits.c"
 #import "data/scripts/dc_hansburg/terrain.c"
 

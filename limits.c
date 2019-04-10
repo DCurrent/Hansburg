@@ -1,7 +1,5 @@
 #include "data/scripts/dc_hansburg/config.h"
 
-#import "data/scripts/dc_hansburg/instance.c"
-
 int dc_hansburg_get_max_height()
 {
 	int instance;

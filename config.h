@@ -3,7 +3,11 @@
 
 // Dependencies
 #include "data/scripts/dc_target/main.c"
+#include "data/scripts/dc_instance/main.c"
 
+// Name of library. Used mainly as a base for variable IDs. Must
+// be unique vs all other libraries. Try to keep it short.
+#define DC_HANSBURG_BASE_ID		"dchansb"
 
 // *****Configuration*****
 //
@@ -31,7 +35,6 @@
 #define DC_HANSBURG_ANI_JUMP_WALL_START         openborconstant("ANI_FOLLOW40")     // Wall prepping to jump animation.   The range of this animation is used to detect walls.
 
 // Defaults.
-#define DC_HANSBURG_DEFAULT_INSTANCE			0
 #define DC_HANSBURG_DEFAULT_DISABLE				0
 #define DC_HANSBURG_DEFAULT_ENT					getlocalvar("self")
 #define DC_HANSBURG_DEFAULT_MAX_HEIGHT			openborvariant("vResolution") * 1.25		
@@ -51,12 +54,21 @@
 #define DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL 3                                   // None.
 
 // Variable keys.
-#define DC_HANSBURG_VAR_KEY_BASE_ID		"dchansb"	// Base name of every var ID. Must be unique vs. all other libraries.
-#define DC_HANSBURG_VAR_KEY_INSTANCE	DC_HANSBURG_VAR_KEY_BASE_ID + 0
-#define DC_HANSBURG_VAR_KEY_DISABLE		DC_HANSBURG_VAR_KEY_BASE_ID + 1	// Disable auxiliary jumping.
-#define DC_HANSBURG_VAR_KEY_ENT			DC_HANSBURG_VAR_KEY_BASE_ID + 2	// Entity.
-#define DC_HANSBURG_VAR_KEY_MAX_HEIGHT	DC_HANSBURG_VAR_KEY_BASE_ID + 3	// Temporary maximum height.
+#define DC_HANSBURG_VAR_KEY_INSTANCE	DC_HANSBURG_BASE_ID + 0
+#define DC_HANSBURG_VAR_KEY_DISABLE		DC_HANSBURG_BASE_ID + 1	// Disable auxiliary jumping.
+#define DC_HANSBURG_VAR_KEY_ENT			DC_HANSBURG_BASE_ID + 2	// Entity.
+#define DC_HANSBURG_VAR_KEY_MAX_HEIGHT	DC_HANSBURG_BASE_ID + 3	// Temporary maximum height.
 #define DC_HANSBURG_VAR_KEY_THE_END		4			// Should always last, with a value one higher than previous key ID.
+
+// Instance control. 
+#define dc_hansburg_get_instance()		dc_instance_get(DC_HANSBURG_VAR_KEY_INSTANCE)
+#define dc_hansburg_set_instance(value)	dc_instance_set(DC_HANSBURG_VAR_KEY_INSTANCE, value)
+#define dc_hansburg_reset_instance()	dc_instance_reset(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_free_instance()		dc_instance_free(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_dump_instance()		dc_instance_dump(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_export_instance()	dc_instance_export(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_import_instance()	dc_instance_import(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_free_export()		dc_instance_free_export(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
 
 #endif
 
