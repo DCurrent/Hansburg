@@ -8,7 +8,7 @@
 // Main auxiliary jump function. Checks entity for Wall, edge, obstacle,
 // and double jumping animations, evaluates usability based on
 // status and environment, and executes as necessary. Returns
-// the animation set, or 0 if none.
+// the animation set, or DC_HANSBURG_NO_AUX_JUMP if none.
 int dc_hansburg_execute(){
 
     void    ent;			// Entity controlled by player index.
@@ -33,7 +33,7 @@ int dc_hansburg_execute(){
 	ent = dc_hansburg_get_entity();
 
 	// Get the player index.
-	player_index = getentityproperty(ent, "playerindex");
+	player_index = get_entity_property(ent, "player_index");
 
     // Get key status.
     key_hold        = getplayerproperty(player_index, "keys");
@@ -43,12 +43,11 @@ int dc_hansburg_execute(){
 	if(key_press & openborconstant("FLAG_JUMP"))
 	{
 	    // Let's get the entity properties we'll need.
-	    animation_id    = getentityproperty(ent, "animationid");
-	    direction       = getentityproperty(ent, "direction");
-	    position_y      = getentityproperty(ent, "y");
+	    animation_id    = get_entity_property(ent, "animation_id");
+	    direction       = get_entity_property(ent, "position_direction");
+	    position_y      = get_entity_property(ent, "position_y");
 
-        // Now let's see if there is a temporary maximum height set.
-        // If not, we use the default.
+        // Get current maximum height.
         maximum_height  = dc_hansburg_get_max_height();
 
         // If current Y position is beyond maximum height, then
@@ -56,7 +55,7 @@ int dc_hansburg_execute(){
         if(position_y > maximum_height)
         {
             // was triggered. Return false.
-            return 0;
+            return DC_HANSBURG_NO_AUX_JUMP;
         }
 
 		// Is entity in a valid jumping animation and within maximum
@@ -71,14 +70,12 @@ int dc_hansburg_execute(){
             || animation_id == DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD
             || animation_id == DC_HANSBURG_ANI_JUMP_DOUBLE_NEUTRAL)
 		{
-
 			
-
-            // We'll need to get the x position of any possible walls
+			// We'll need to get the x position of any possible walls
             // or edges within range of our alternate jump animations.
 			
-			// Set up dc_target to use same instance and entity.
-			dc_target_set_instance(dc_hansburg_get_instance());
+			// Set up dc_target to use our instance and entity.
+			dc_target_set_instance(dc_hansburg_get_instance_dependency());
 			dc_target_set_entity(dc_hansburg_get_entity());
 
             edge_x      = dc_target_find_edge_x(DC_HANSBURG_ANI_JUMP_EDGE_START);
@@ -90,7 +87,7 @@ int dc_hansburg_execute(){
 
             if(obstacle)
             {
-				obstacle_x = getentityproperty(obstacle, "x");
+				obstacle_x = get_entity_property(obstacle, "position_x");
 
                 // prepare animation.
                 animation_set   = DC_HANSBURG_ANI_JUMP_OBJECT_START;
@@ -169,11 +166,13 @@ int dc_hansburg_execute(){
             if(animation_valid == 1)
             {
                 // Now we need to stop all current velocity.
-                changeentityproperty(ent, "velocity", 0, 0, 0);
+				set_entity_property(ent, "velocity_x", 0);
+				set_entity_property(ent, "velocity_y", 0);
+				set_entity_property(ent, "velocity_z", 0);
 
                 // Set the animation. We don't want to change any AI flags here,
                 // so we're just going to use the changeentityproperty method.
-                changeentityproperty(ent, "animation", animation_set);
+                set_entity_property(ent, "animation_id", animation_set);
 
                 // We are finished, so return animation ID and exit the function.
                 return animation_set;
@@ -194,7 +193,7 @@ int dc_hansburg_face_away(void ent, float target_x)
     float   position_x      = 0.0;    // Entity position, X axis.
 
 	// Get X position.
-	position_x      = getentityproperty(ent, "x");
+	position_x      = get_entity_property(ent, "position_x");
 
 
     // Simple check. If we are to left of target x
@@ -209,7 +208,7 @@ int dc_hansburg_face_away(void ent, float target_x)
     }
 
     // Apply direction result to entity.
-    changeentityproperty(ent, "direction", result);
+    set_entity_property(ent, "position_direction", result);
 
     //return result.
     return result;

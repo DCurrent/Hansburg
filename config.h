@@ -46,6 +46,7 @@
 
 // Control flags
 #define DC_HANSBURG_TIME_INFINITE               -1                                  // True.
+#define DC_HANSBURG_NO_AUX_JUMP					-1									// No auxilliary jump animation set.
 
 // Forward/Backward command status in relation to facing.
 #define DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK    1                                   // Back.
@@ -60,14 +61,15 @@
 #define DC_HANSBURG_VAR_KEY_THE_END		4			// Should always last, with a value one higher than previous key ID.
 
 // Instance control. 
-#define dc_hansburg_get_instance()		dc_instance_get(DC_HANSBURG_VAR_KEY_INSTANCE)
-#define dc_hansburg_set_instance(value)	dc_instance_set(DC_HANSBURG_VAR_KEY_INSTANCE, value)
-#define dc_hansburg_reset_instance()	dc_instance_reset(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
-#define dc_hansburg_free_instance()		dc_instance_free(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
-#define dc_hansburg_dump_instance()		dc_instance_dump(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
-#define dc_hansburg_export_instance()	dc_instance_export(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
-#define dc_hansburg_import_instance()	dc_instance_import(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
-#define dc_hansburg_free_export()		dc_instance_free_export(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_get_instance()				dc_instance_get(DC_HANSBURG_VAR_KEY_INSTANCE)
+#define dc_hansburg_set_instance(value)			dc_instance_set(DC_HANSBURG_VAR_KEY_INSTANCE, value)
+#define dc_hansburg_get_instance_dependency()	dc_instance_dependency_get(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE)
+#define dc_hansburg_reset_instance()			dc_instance_reset(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_free_instance()				dc_instance_free(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_dump_instance()				dc_instance_dump(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_export_instance()			dc_instance_export(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_import_instance()			dc_instance_import(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_free_export()				dc_instance_free_export(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
 
 #endif
 
