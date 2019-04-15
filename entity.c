@@ -4,13 +4,13 @@
 // Get
 void dc_hansburg_get_entity()
 {
-	int instance;
+	char id;
 	void result;
 
-	// Get instance.
-	instance = dc_hansburg_get_instance();
+	// Get id.
+	id = dc_hansburg_get_instance() + DC_HANSBURG_VAR_KEY_ENT;
 
-	result = getlocalvar(instance + DC_HANSBURG_VAR_KEY_ENT);
+	result = getlocalvar(id);
 
 	if (typeof(result) != openborconstant("VT_PTR"))
 	{
@@ -23,10 +23,15 @@ void dc_hansburg_get_entity()
 // Set
 void dc_hansburg_set_entity(void value)
 {
-	int instance;
+	char id;
 
-	// Get instance.
-	instance = dc_hansburg_get_instance();
+	// Get id.
+	id = dc_hansburg_get_instance() + DC_HANSBURG_VAR_KEY_ENT;
 
-	setlocalvar(instance + DC_HANSBURG_VAR_KEY_ENT, value);
+	if (value == DC_HANSBURG_DEFAULT_ENT)
+	{
+		value == NULL();
+	}
+
+	setlocalvar(id, value);
 }

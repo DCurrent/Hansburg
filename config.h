@@ -47,7 +47,6 @@
 // Control flags
 #define DC_HANSBURG_TIME_INFINITE               -1                                  // True.
 
-
 // Forward/Backward command status in relation to facing.
 #define DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK    1                                   // Back.
 #define DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD 2                                   // Forward.
