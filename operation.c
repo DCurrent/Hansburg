@@ -48,7 +48,7 @@ int dc_hansburg_execute(){
 	    position_y      = get_entity_property(ent, "position_y");
 
         // Get current maximum height.
-        maximum_height  = dc_hansburg_get_max_height();
+        maximum_height  = dc_hansburg_get_max_y();
 
         // If current Y position is beyond maximum height, then
         // exit. We don't want to do anything else.

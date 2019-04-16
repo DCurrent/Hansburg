@@ -1,30 +1,30 @@
 #include "data/scripts/dc_hansburg/config.h"
 
-int dc_hansburg_get_max_height()
+int dc_hansburg_get_max_y()
 {
 	char id;
 	int result; 
 	
-	id = dc_hansburg_get_instance() + DC_HANSBURG_VAR_KEY_MAX_HEIGHT;
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_MAX_Y;
 
 	result = getlocalvar(id);
 
 	if (typeof(result) != openborconstant("VT_INTEGER"))
 	{
-		result = DC_HANSBURG_DEFAULT_MAX_HEIGHT;
+		result = DC_HANSBURG_DEFAULT_MAX_Y;
 	}
 
 	return result;
 }
 
-void dc_hansburg_set_max_height(int value)
+void dc_hansburg_set_max_y(int value)
 {
 	int id;
 
 	// Get id.
-	id = dc_hansburg_get_instance() + DC_HANSBURG_VAR_KEY_MAX_HEIGHT;
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_MAX_Y;
 
-	if (value == DC_HANSBURG_DEFAULT_MAX_HEIGHT)
+	if (value == DC_HANSBURG_DEFAULT_MAX_Y)
 	{
 		value = NULL();
 	}
@@ -39,13 +39,13 @@ int dc_hansburg_get_disable_time()
 	int result;
 
 	// Get id.
-	id = dc_hansburg_get_instance() + DC_HANSBURG_VAR_KEY_DISABLE;
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DISABLE;
 
 	result = getlocalvar(id);
 
 	if (typeof(result) != openborconstant("VT_INTEGER"))
 	{
-		result = DC_HANSBURG_DEFAULT_DISABLE
+		result = DC_HANSBURG_DEFAULT_DISABLE;
 	}
 	
 	return result;
@@ -56,7 +56,7 @@ void dc_hansburg_set_disable_time(int value)
 	char id;
 
 	// Get id.
-	id = dc_hansburg_get_instance() + DC_HANSBURG_VAR_KEY_DISABLE;
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DISABLE;
 
 	if (value == DC_HANSBURG_DEFAULT_DISABLE)
 	{

@@ -35,9 +35,12 @@
 #define DC_HANSBURG_ANI_JUMP_WALL_START         openborconstant("ANI_FOLLOW40")     // Wall prepping to jump animation.   The range of this animation is used to detect walls.
 
 // Defaults.
+#define DC_HANSBURG_DEFAULT_AXIS_CONTROL		DC_HANSBURG_AXIS_CONTROL_VELOCITY_Y_MARIO	
 #define DC_HANSBURG_DEFAULT_DISABLE				0
 #define DC_HANSBURG_DEFAULT_ENT					getlocalvar("self")
-#define DC_HANSBURG_DEFAULT_MAX_HEIGHT			openborvariant("vResolution") * 1.25		
+#define DC_HANSBURG_DEFAULT_MARIO_MIN_Y			40	
+#define DC_HANSBURG_DEFAULT_MARIO_Y_STOP		0.9	
+#define DC_HANSBURG_DEFAULT_MAX_Y				openborvariant("vResolution") * 1.25	
 
 //*****End User Settings.*****
 //
@@ -48,28 +51,46 @@
 #define DC_HANSBURG_TIME_INFINITE               -1                                  // True.
 #define DC_HANSBURG_NO_AUX_JUMP					-1									// No auxilliary jump animation set.
 
+// Key press types.
+#define DC_HANSBURG_PLAYER_KEY_HOLD				0
+#define DC_HANSBURG_PLAYER_KEY_PRESS			1
+#define DC_HANSBURG_PLAYER_KEY_RELEASE			2
+
 // Forward/Backward command status in relation to facing.
-#define DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK    1                                   // Back.
-#define DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD 2                                   // Forward.
-#define DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL 3                                   // None.
+#define DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK    1
+#define DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD 2 
+#define DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL 3
+
+// Axis control options.
+#define DC_HANSBURG_AXIS_CONTROL_NONE				0
+#define DC_HANSBURG_AXIS_CONTROL_DIRECTION			1
+#define DC_HANSBURG_AXIS_CONTROL_VELOCITY_X			2
+#define DC_HANSBURG_AXIS_CONTROL_VELOCITY_Y_FLY		4
+#define DC_HANSBURG_AXIS_CONTROL_VELOCITY_Y_MARIO	8
+#define DC_HANSBURG_AXIS_CONTROL_VELOCITY_Z			16
+
+
 
 // Variable keys.
-#define DC_HANSBURG_VAR_KEY_INSTANCE	DC_HANSBURG_BASE_ID + 0
-#define DC_HANSBURG_VAR_KEY_DISABLE		DC_HANSBURG_BASE_ID + 1	// Disable auxiliary jumping.
-#define DC_HANSBURG_VAR_KEY_ENT			DC_HANSBURG_BASE_ID + 2	// Entity.
-#define DC_HANSBURG_VAR_KEY_MAX_HEIGHT	DC_HANSBURG_BASE_ID + 3	// Temporary maximum height.
-#define DC_HANSBURG_VAR_KEY_THE_END		4			// Should always last, with a value one higher than previous key ID.
+#define DC_HANSBURG_MEMBER_INSTANCE			DC_HANSBURG_BASE_ID + 0
+#define DC_HANSBURG_MEMBER_AXIS_CONTROL		DC_HANSBURG_BASE_ID + 1
+#define DC_HANSBURG_MEMBER_DISABLE			DC_HANSBURG_BASE_ID + 2	// Disable auxiliary jumping.
+#define DC_HANSBURG_MEMBER_ENT				DC_HANSBURG_BASE_ID + 3	// Entity.
+#define DC_HANSBURG_MEMBER_MARIO_MIN_Y		DC_HANSBURG_BASE_ID + 4	// Minimum height before mario style control will stop jump.
+#define DC_HANSBURG_MEMBER_MAX_Y			DC_HANSBURG_BASE_ID + 5	// Maximum height to allow wall jumps, double jumps, etc.
+#define DC_HANSBURG_MEMBER_MARIO_Y_STOP		DC_HANSBURG_BASE_ID + 6	// Percentage of current Y to apply when stopping a mario style jump.
+#define DC_HANSBURG_MEMBER_THE_END			7			// Should always last, with a value one higher than previous key ID.
 
 // Instance control. 
-#define dc_hansburg_get_instance()				dc_instance_get(DC_HANSBURG_VAR_KEY_INSTANCE)
-#define dc_hansburg_set_instance(value)			dc_instance_set(DC_HANSBURG_VAR_KEY_INSTANCE, value)
-#define dc_hansburg_get_instance_dependency()	dc_instance_dependency_get(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE)
-#define dc_hansburg_reset_instance()			dc_instance_reset(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
-#define dc_hansburg_free_instance()				dc_instance_free(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
-#define dc_hansburg_dump_instance()				dc_instance_dump(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
-#define dc_hansburg_export_instance()			dc_instance_export(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
-#define dc_hansburg_import_instance()			dc_instance_import(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
-#define dc_hansburg_free_export()				dc_instance_free_export(DC_HANSBURG_BASE_ID, DC_HANSBURG_VAR_KEY_INSTANCE, DC_HANSBURG_VAR_KEY_THE_END)
+#define dc_hansburg_get_instance()				dc_instance_get(DC_HANSBURG_MEMBER_INSTANCE)
+#define dc_hansburg_set_instance(value)			dc_instance_set(DC_HANSBURG_MEMBER_INSTANCE, value)
+#define dc_hansburg_get_instance_dependency()	dc_instance_dependency_get(DC_HANSBURG_BASE_ID, DC_HANSBURG_MEMBER_INSTANCE)
+#define dc_hansburg_reset_instance()			dc_instance_reset(DC_HANSBURG_BASE_ID, DC_HANSBURG_MEMBER_INSTANCE, DC_HANSBURG_MEMBER_THE_END)
+#define dc_hansburg_free_instance()				dc_instance_free(DC_HANSBURG_BASE_ID, DC_HANSBURG_MEMBER_INSTANCE, DC_HANSBURG_MEMBER_THE_END)
+#define dc_hansburg_dump_instance()				dc_instance_dump(DC_HANSBURG_BASE_ID, DC_HANSBURG_MEMBER_INSTANCE, DC_HANSBURG_MEMBER_THE_END)
+#define dc_hansburg_export_instance()			dc_instance_export(DC_HANSBURG_BASE_ID, DC_HANSBURG_MEMBER_INSTANCE, DC_HANSBURG_MEMBER_THE_END)
+#define dc_hansburg_import_instance()			dc_instance_import(DC_HANSBURG_BASE_ID, DC_HANSBURG_MEMBER_INSTANCE, DC_HANSBURG_MEMBER_THE_END)
+#define dc_hansburg_free_export()				dc_instance_free_export(DC_HANSBURG_BASE_ID, DC_HANSBURG_MEMBER_INSTANCE, DC_HANSBURG_MEMBER_THE_END)
 
 #endif
 

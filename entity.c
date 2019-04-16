@@ -8,7 +8,7 @@ void dc_hansburg_get_entity()
 	void result;
 
 	// Get id.
-	id = dc_hansburg_get_instance() + DC_HANSBURG_VAR_KEY_ENT;
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_ENT;
 
 	result = getlocalvar(id);
 
@@ -26,7 +26,7 @@ void dc_hansburg_set_entity(void value)
 	char id;
 
 	// Get id.
-	id = dc_hansburg_get_instance() + DC_HANSBURG_VAR_KEY_ENT;
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_ENT;
 
 	if (value == DC_HANSBURG_DEFAULT_ENT)
 	{
