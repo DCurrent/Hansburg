@@ -21,7 +21,7 @@ int dc_hansburg_find_direction_command()
 	// Action entity.
 	ent = dc_hansburg_get_entity();
 
-	// Get the key status.
+	// Get the key "entity_status".
 	player_index = getentityproperty(ent, "playerindex");
 	key_hold = getplayerproperty(player_index, "keys");
 	

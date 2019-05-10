@@ -7,7 +7,7 @@
 
 // Main auxiliary jump function. Checks entity for Wall, edge, obstacle,
 // and double jumping animations, evaluates usability based on
-// status and environment, and executes as necessary. Returns
+// "entity_status" and environment, and executes as necessary. Returns
 // the animation set, or DC_HANSBURG_NO_AUX_JUMP if none.
 int dc_hansburg_execute(){
 
@@ -35,7 +35,7 @@ int dc_hansburg_execute(){
 	// Get the player index.
 	player_index = get_entity_property(ent, "player_index");
 
-    // Get key status.
+    // Get key "entity_status".
     key_hold        = getplayerproperty(player_index, "keys");
     key_press       = getplayerproperty(player_index, "newkeys");
 

@@ -56,7 +56,7 @@
 #define DC_HANSBURG_PLAYER_KEY_PRESS			1
 #define DC_HANSBURG_PLAYER_KEY_RELEASE			2
 
-// Forward/Backward command status in relation to facing.
+// Forward/Backward command "entity_status" in relation to facing.
 #define DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK    1
 #define DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD 2 
 #define DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL 3
