@@ -1,5 +1,6 @@
 #include "data/scripts/dc_hansburg/config.h"
 
+
 // Base entity functions will act on.
 // Get
 void dc_hansburg_get_entity()

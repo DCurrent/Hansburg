@@ -5,6 +5,9 @@
 // Returns x position of closest wall within animation range.
 int dc_hansburg_find_wall_x(int animation_id)
 {
+	// 2019-1029, Temp disable while we work on screen edge detection.
+	return 0;
+
 	void ent;				// Acting entity.
 	int result;				// Final result.
 	int animation_valid;	// Animation exists flag.

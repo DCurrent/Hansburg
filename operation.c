@@ -11,6 +11,8 @@
 // the animation set, or DC_HANSBURG_NO_AUX_JUMP if none.
 int dc_hansburg_execute(){
 
+	log("\n\n\n dc_hansburg_execute -----------------------------------------------");
+
     void    ent;			// Entity controlled by player index.
 	int		player_index;	// Player index controlling entity.
 	int     key_press       = 0;        // Key press triggering event.
@@ -42,7 +44,7 @@ int dc_hansburg_execute(){
 	// Is this a jump key press and a valid entity pointer?
 	if(key_press & openborconstant("FLAG_JUMP"))
 	{
-	    // Let's get the entity properties we'll need.
+		// Let's get the entity properties we'll need.
 	    animation_id    = get_entity_property(ent, "animation_id");
 	    direction       = get_entity_property(ent, "position_direction");
 	    position_y      = get_entity_property(ent, "position_y");
@@ -85,6 +87,10 @@ int dc_hansburg_execute(){
 			dc_target_set_animation(DC_HANSBURG_ANI_JUMP_OBJECT_START);
             obstacle  = dc_target_find_obstacle();
 
+			log("\n dc_hansburg_execute, edge_x:" + edge_x);
+			log("\n dc_hansburg_execute, wall_x:" + wall_x);
+			log("\n dc_hansburg_execute, obstacle:" + obstacle);
+
             if(obstacle)
             {
 				obstacle_x = get_entity_property(obstacle, "position_x");
@@ -93,7 +99,7 @@ int dc_hansburg_execute(){
                 animation_set   = DC_HANSBURG_ANI_JUMP_OBJECT_START;
 
                 // Face away from obstacle.
-                dc_hansburg_face_away(ent, obstacle_x);
+                //dc_hansburg_do_boundary_jump_position(ent, obstacle_x);
 
             }
             else if(wall_x)
@@ -102,18 +108,13 @@ int dc_hansburg_execute(){
                 animation_set   = DC_HANSBURG_ANI_JUMP_WALL_START;
 
                 // Face away from wall.
-                dc_hansburg_face_away(ent, wall_x);
+                //dc_hansburg_do_boundary_jump_position(ent, wall_x);
 
             }
             else if(edge_x)
             {
-                // prepare animation.
-                animation_set   = DC_HANSBURG_ANI_JUMP_EDGE_START;
-
-                // Face away from edge.
-                dc_hansburg_face_away(ent, edge_x);
-            }
-
+				dc_hansburg_do_edge_jump_start(edge_x);
+			}
 		}
 
 		// Double jump.
@@ -158,7 +159,7 @@ int dc_hansburg_execute(){
         }
 
 		// Did we set up an alternate jump of any kind? If so let's take care of the details here.
-        if(animation_set && animation_set)
+        if(animation_set)
         {
             // Does entity have the selected animation?
             animation_valid = getentityproperty(ent, "animvalid", animation_set);
@@ -170,9 +171,8 @@ int dc_hansburg_execute(){
 				set_entity_property(ent, "velocity_y", 0);
 				set_entity_property(ent, "velocity_z", 0);
 
-                // Set the animation. We don't want to change any AI flags here,
-                // so we're just going to use the changeentityproperty method.
-                set_entity_property(ent, "animation_id", animation_set);
+				// Execute the animation.
+				performattack(ent, animation_set);
 
                 // We are finished, so return animation ID and exit the function.
                 return animation_set;
@@ -185,33 +185,50 @@ int dc_hansburg_execute(){
 	return 0;
 }
 
-// Face away from given position.
-int dc_hansburg_face_away(void ent, float target_x)
+// Caskey, Damon V.
+// Revamped 2019-10-28
+//
+// Places entity at a target position and sets facing to
+// look away (from position). Use when setting up a wall
+// or screen edge jump.
+int dc_hansburg_do_edge_jump_start(float edge_x)
 {
+	void	ent;
+	int		pos_direction;				// Position entity is set to.
+    float   position_x      = 0.0;		// Entity position, X axis.
 
-    int     result          = openborconstant("DIRECTION_RIGHT");  // Result and position entity is set to.
-    float   position_x      = 0.0;    // Entity position, X axis.
+	ent = dc_hansburg_get_entity();
 
 	// Get X position.
 	position_x      = get_entity_property(ent, "position_x");
-
-
-    // Simple check. If we are to left of target x
-    // position, then face left. Otherwise face right.
-    if(position_x < target_x)
+	
+    // Face away from target position. We also adjust our position
+	// value a bit to deal with the game world screen edge being 
+	// slightly larger than visible screen. 
+    if(position_x < edge_x)
     {
-        result = openborconstant("DIRECTION_LEFT");
+		pos_direction = openborconstant("DIRECTION_LEFT");
+		position_x = edge_x - 10;
     }
     else
     {
-        result = openborconstant("DIRECTION_RIGHT");
+		pos_direction = openborconstant("DIRECTION_RIGHT");
+		position_x = edge_x + 10;
     }
 
     // Apply direction result to entity.
-    set_entity_property(ent, "position_direction", result);
+    set_entity_property(ent, "position_direction", pos_direction);
 
-    //return result.
-    return result;
+	// Move entity to adjusted boundary location.
+	set_entity_property(ent, "position_x", position_x);
+
+	// Stop all movement.
+	set_entity_property(ent, "velocity_x", 0);
+	set_entity_property(ent, "velocity_y", 0);
+	set_entity_property(ent, "velocity_z", 0);
+
+	// Set the edge jumps tart animation.
+	performattack(ent, DC_HANSBURG_ANI_JUMP_EDGE_START);
 }
 
 
