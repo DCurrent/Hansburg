@@ -237,4 +237,43 @@ int dc_hansburg_do_edge_jump_start(float edge_x)
 	set_entity_property(ent, "toss_time", openborvariant("elapsed_time") + dc_hansburg_get_boundary_jump_start_hover());
 }
 
+// Caskey, Damon V.
+// 2019-10-29
+//
+// Complete the edge jump. Run this on last frame of the 
+// start up animation.
+//
+// -- Switch to edge jump animation.
+// -- Apply jump toss.
+// -- Set jumping flag.
+// -- Turn off tosstime that we applied when 
+// starting the jump.
+void dc_hansburg_do_edge_jump_finish()
+{
+	void ent = dc_hansburg_get_entity();
+
+	// Turn off toss time.
+	set_entity_property(ent, "toss_time", 0);
+
+	changeentityproperty(ent, "animation", DC_HANSBURG_ANI_JUMP_EDGE);
+
+	float toss_x = 2.0;
+	float toss_y = 3.0;
+	float toss_z = 0.0;
+
+	tossentity(ent, toss_y, toss_x, toss_z);
+
+	changeentityproperty(ent, "takeaction", "common_jump");
+
+	// Before allowing a jump attack, OppenBOR evaluates the following:
+	// -- In orginal designated jump animation.
+	// -- Jump attack cancels are allowed.
+	// -- We are in the very last frame of current animation.
+	//
+	// We don’t want to wait until last frame to allow player attacks,
+	// and we don’t want to mess with cancel settings. Instead, we just
+	// tell OpenBOR our new animation is the primary jump animation ID.
+
+	set_entity_property(ent, "jump_animation_id", DC_HANSBURG_ANI_JUMP_EDGE);
+}
 

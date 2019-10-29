@@ -2,8 +2,47 @@
 
 #import "data/scripts/dc_hansburg/entity.c"
 
+int dc_hansburg_find_wall_x()
+{
+	return 0;
+
+	void ent;
+	int wall_count;		// Number of walls in level.
+	int wall_cursor;	// Wall we are currently evaluating.
+
+	int wall_height;	// Wall height.
+
+	float pos_y;		// Entity current Y position.
+
+	ent = dc_hansburg_get_entity();
+
+	// Get number of walls in level.
+	wall_count = openborvariant("numwalls");
+
+
+	for (wall_cursor = 0; wall_cursor < wall_count; wall_cursor++)
+	{
+		// Before we bother with complex coefficient calculations, let's
+		// evaluate height first. We don't care about walls below our
+		// current Y position.
+
+		wall_height = getlevelproperty("wall", wall_cursor, "height");
+		pos_y = get_entity_property(ent, "position_y");
+
+		if (wall_height > pos_y)
+		{
+			continue;
+		}
+
+		// Now let's find out if we are in the same Z alignment.
+
+
+	}
+}
+
+
 // Returns x position of closest wall within animation range.
-int dc_hansburg_find_wall_x(int animation_id)
+int dc_hansburg_find_wall_x_old(int animation_id)
 {
 	// 2019-1029, Temp disable while we work on screen edge detection.
 	return 0;
