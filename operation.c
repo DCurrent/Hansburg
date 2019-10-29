@@ -1,5 +1,6 @@
 #include "data/scripts/dc_hansburg/config.h"
 
+#import "data/scripts/dc_hansburg/boundary_jump_start_hover.c"
 #import "data/scripts/dc_hansburg/command.c"
 #import "data/scripts/dc_hansburg/entity.c"
 #import "data/scripts/dc_hansburg/limits.c"
@@ -229,6 +230,11 @@ int dc_hansburg_do_edge_jump_start(float edge_x)
 
 	// Set the edge jumps tart animation.
 	performattack(ent, DC_HANSBURG_ANI_JUMP_EDGE_START);
+
+	// Hover in midair so we don't slide
+	// down the edge while in startup pose
+	// for edge jump.
+	set_entity_property(ent, "toss_time", openborvariant("elapsed_time") + dc_hansburg_get_boundary_jump_start_hover());
 }
 
 
