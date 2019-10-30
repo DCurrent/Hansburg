@@ -25,14 +25,23 @@
 // jumping, and edge jumping. Then adding that single animation to a model would
 // give it all those types of auxiliary jumping.
 #define DC_HANSBURG_ANI_JUMP_DOUBLE_NEUTRAL     openborconstant("ANI_FOLLOW42")     // Double jumping animation.
+#define DC_HANSBURG_ANI_JUMP_DOUBLE_NEUTRAL_RUN	openborconstant("ANI_FOLLOW42")     // Double jumping animation, from run jump.
 #define DC_HANSBURG_ANI_JUMP_DOUBLE_BACK        openborconstant("ANI_FOLLOW44")     // Double jumping backward animation.
+#define DC_HANSBURG_ANI_JUMP_DOUBLE_BACK_RUN    openborconstant("ANI_FOLLOW44")     // Double jumping backward animation, from run.
 #define DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD     openborconstant("ANI_FOLLOW43")     // Double jumping forward animation.
+#define DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD_RUN openborconstant("ANI_FOLLOW43")     // Double jumping forward animation, from run.
 #define DC_HANSBURG_ANI_JUMP_EDGE               openborconstant("ANI_FOLLOW41")     // Screen edge jumping animation.
-#define DC_HANSBURG_ANI_JUMP_EDGE_START         openborconstant("ANI_FOLLOW40")     // Screen edge prepping to jump animation. The range of this animation is used to detect screen edges
+#define DC_HANSBURG_ANI_JUMP_EDGE_RUN           openborconstant("ANI_FOLLOW41")     // Screen edge jumping animation, from run.
+#define DC_HANSBURG_ANI_JUMP_EDGE_START         openborconstant("ANI_FOLLOW40")     // Screen edge prepping to jump animation. The range of this animation is used to detect screen edges.
+#define DC_HANSBURG_ANI_JUMP_EDGE_START_RUN     openborconstant("ANI_FOLLOW40")     // Screen edge prepping to jump animation, from run. The range of this animation is used to detect screen edges.
 #define DC_HANSBURG_ANI_JUMP_OBJECT             openborconstant("ANI_FOLLOW41")     // Obstacle jumping animation.
+#define DC_HANSBURG_ANI_JUMP_OBJECT_RUN         openborconstant("ANI_FOLLOW41")     // Obstacle jumping animation, from run.
 #define DC_HANSBURG_ANI_JUMP_OBJECT_START       openborconstant("ANI_FOLLOW40")     // Obstacle prepping to jump animation. The range of this animation is used to detect objects.
+#define DC_HANSBURG_ANI_JUMP_OBJECT_START_RUN   openborconstant("ANI_FOLLOW40")     // Obstacle prepping to jump animation, from run. The range of this animation is used to detect objects.
 #define DC_HANSBURG_ANI_JUMP_WALL               openborconstant("ANI_FOLLOW41")     // Wall jump animation.
-#define DC_HANSBURG_ANI_JUMP_WALL_START         openborconstant("ANI_FOLLOW40")     // Wall prepping to jump animation.   The range of this animation is used to detect walls.
+#define DC_HANSBURG_ANI_JUMP_WALL_RUN           openborconstant("ANI_FOLLOW41")     // Wall jump animation, from run.
+#define DC_HANSBURG_ANI_JUMP_WALL_START         openborconstant("ANI_FOLLOW40")     // Wall prepping to jump animation. The range of this animation is used to detect walls.
+#define DC_HANSBURG_ANI_JUMP_WALL_START_RUN     openborconstant("ANI_FOLLOW40")     // Wall prepping to jump animation, from run. The range of this animation is used to detect walls.
 
 // Defaults.
 #define DC_HANSBURG_DEFAULT_AXIS_CONTROL				DC_HANSBURG_AXIS_CONTROL_VELOCITY_Y_MARIO	
