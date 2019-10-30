@@ -6,6 +6,25 @@
 #import "data/scripts/dc_hansburg/limits.c"
 #import "data/scripts/dc_hansburg/terrain.c"
 
+// Caskey, Damon V.
+// 2019-10-30
+//
+// Verify basic eligibility requirements before we allow 
+// a secondary jump.
+int dc_hansburg_check_alternate_jump_elgible()
+{
+	void ent = dc_hansburg_get_entity();
+	
+	// We have to be in the assigned jump animation.
+	if (get_entity_property(ent, "animation_id") != get_entity_property(ent, "jump_animation_id"))
+	{
+		return 0;
+	}
+
+	// All checks passed, so return true.
+	return 1;
+}
+
 // Main auxiliary jump function. Checks entity for Wall, edge, obstacle,
 // and double jumping animations, evaluates usability based on
 // "entity_status" and environment, and executes as necessary. Returns
@@ -63,15 +82,7 @@ int dc_hansburg_execute(){
 
 		// Is entity in a valid jumping animation and within maximum
         // vertical distance from base?
-		if(animation_id == openborconstant("ANI_JUMP")
-            || animation_id == openborconstant("ANI_FORWARDJUMP")
-            || animation_id == openborconstant("ANI_RUNJUMP")
-            || animation_id == DC_HANSBURG_ANI_JUMP_WALL
-            || animation_id == DC_HANSBURG_ANI_JUMP_EDGE
-            || animation_id == DC_HANSBURG_ANI_JUMP_OBJECT
-            || animation_id == DC_HANSBURG_ANI_JUMP_DOUBLE_BACK
-            || animation_id == DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD
-            || animation_id == DC_HANSBURG_ANI_JUMP_DOUBLE_NEUTRAL)
+		if(dc_hansburg_check_alternate_jump_elgible())
 		{
 			
 			// We'll need to get the x position of any possible walls
