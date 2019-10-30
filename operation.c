@@ -49,8 +49,6 @@ int dc_hansburg_execute(){
     void    ent;			// Entity controlled by player index.
 	int		player_index;	// Player index controlling entity.
 	int     key_press       = 0;        // Key press triggering event.
-	int     key_hold        = 0;        // Keys currently held when event was triggered.
-	int     direction       = openborconstant("DIRECTION_RIGHT");    // Current facing.
 	int     cmd_direction   = DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL;  // Current directional command hold from player in relation to entity's facing.
 	int     animation_id    = 0;        // Current animation.
 	int     animation_valid = 0;         // Flag indicating entity has an animation.
@@ -64,24 +62,19 @@ int dc_hansburg_execute(){
 	// Get acting entity.
 	ent = dc_hansburg_get_entity();
 
-	// Get the player index.
+	// Get the player key press.
 	player_index = get_entity_property(ent, "player_index");
-
-    // Get key "entity_status".
-    key_hold        = getplayerproperty(player_index, "keys");
-    key_press       = getplayerproperty(player_index, "newkeys");
+    key_press    = getplayerproperty(player_index, "newkeys");
 
 	// Is this a jump key press and a valid entity pointer?
 	if(key_press & openborconstant("FLAG_JUMP"))
 	{
 		// Let's get the entity properties we'll need.
 	    animation_id    = get_entity_property(ent, "animation_id");
-	    direction       = get_entity_property(ent, "position_direction");
-	    
+	    	    
 		// Is entity elgible for a secondary jump?
 		if(dc_hansburg_check_alternate_jump_elgible())
-		{
-			
+		{			
 			// We'll need to get the x position of any possible walls
             // or edges within range of our alternate jump animations.
 			
