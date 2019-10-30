@@ -2,6 +2,7 @@
 
 #import "data/scripts/dc_hansburg/boundary_jump_start_hover.c"
 #import "data/scripts/dc_hansburg/command.c"
+#import "data/scripts/dc_hansburg/double_jump.c"
 #import "data/scripts/dc_hansburg/entity.c"
 #import "data/scripts/dc_hansburg/limits.c"
 #import "data/scripts/dc_hansburg/terrain.c"
@@ -37,6 +38,8 @@ int dc_hansburg_check_alternate_jump_elgible()
 	// All checks passed, so return true.
 	return 1;
 }
+
+
 
 // Main auxiliary jump function. Checks entity for Wall, edge, obstacle,
 // and double jumping animations, evaluates usability based on
@@ -121,44 +124,7 @@ int dc_hansburg_execute(){
 
 		// Double jump.
 
-        // If no wall or edge jump has been set up,
-        // entity in a valid jumping animation (excluding double jumps,
-        // then let's try a double jump.
-		if((animation_id == openborconstant("ANI_JUMP")
-            || animation_id == openborconstant("ANI_FORWARDJUMP")
-            || animation_id == openborconstant("ANI_RUNJUMP")
-            || animation_id == DC_HANSBURG_ANI_JUMP_WALL
-            || animation_id == DC_HANSBURG_ANI_JUMP_EDGE
-            || animation_id == DC_HANSBURG_ANI_JUMP_OBJECT)
-            && animation_set == 0)
-        {
-            // Which horizontal direction command is player sending?
-            cmd_direction   = dc_hansburg_find_direction_command();
-
-            // Let's decide which double jump animation to use based
-            // on player's horizontal direction command.
-            switch(cmd_direction)
-            {
-                // No direction at all.
-                default:
-                case DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL:
-
-                    animation_set = DC_HANSBURG_ANI_JUMP_DOUBLE_NEUTRAL;
-                    break;
-
-                // Backward.
-                case DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK:
-
-                    animation_set = DC_HANSBURG_ANI_JUMP_DOUBLE_BACK;
-                    break;
-
-                // Forward.
-                case DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD:
-
-                    animation_set = DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD;
-                    break;
-            }
-        }
+        
 
 		// Did we set up an alternate jump of any kind? If so let's take care of the details here.
         if(animation_set)

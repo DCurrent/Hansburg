@@ -50,6 +50,8 @@
 #define DC_HANSBURG_DEFAULT_BOUNDARY_JUMP_VELOCITY_Y	3.0
 #define DC_HANSBURG_DEFAULT_BOUNDARY_JUMP_VELOCITY_Z	0.0
 #define DC_HANSBURG_DEFAULT_DISABLE						0
+#define DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT			0
+#define DC_HANSBURG_DEFAULT_DOUBLE_JUMP_MAX				1
 #define DC_HANSBURG_DEFAULT_ENT							getlocalvar("self")
 #define DC_HANSBURG_DEFAULT_MARIO_MIN_Y					40	
 #define DC_HANSBURG_DEFAULT_MARIO_Y_STOP				0.9	
@@ -63,6 +65,9 @@
 // Control flags
 #define DC_HANSBURG_TIME_INFINITE               -1                                  // True.
 #define DC_HANSBURG_NO_AUX_JUMP					-1									// No auxilliary jump animation set.
+
+// General limits
+#define DC_HANSBURG_IN_AIR						0.1
 
 // Key press types.
 #define DC_HANSBURG_PLAYER_KEY_HOLD				0
@@ -82,7 +87,6 @@
 #define DC_HANSBURG_AXIS_CONTROL_VELOCITY_Y_MARIO		8
 #define DC_HANSBURG_AXIS_CONTROL_VELOCITY_Z				16
 
-
 // Variable keys.
 #define DC_HANSBURG_MEMBER_INSTANCE						DC_HANSBURG_BASE_ID + 0
 #define DC_HANSBURG_MEMBER_AXIS_CONTROL					DC_HANSBURG_BASE_ID + 1
@@ -90,12 +94,14 @@
 #define DC_HANSBURG_MEMBER_BOUNDARY_JUMP_VELOCITY_X		DC_HANSBURG_BASE_ID + 3	
 #define DC_HANSBURG_MEMBER_BOUNDARY_JUMP_VELOCITY_Y		DC_HANSBURG_BASE_ID + 4	
 #define DC_HANSBURG_MEMBER_BOUNDARY_JUMP_VELOCITY_Z		DC_HANSBURG_BASE_ID + 5	
-#define DC_HANSBURG_MEMBER_DISABLE						DC_HANSBURG_BASE_ID + 6	// Disable auxiliary jumping.
-#define DC_HANSBURG_MEMBER_ENT							DC_HANSBURG_BASE_ID + 7	// Entity.
-#define DC_HANSBURG_MEMBER_MARIO_MIN_Y					DC_HANSBURG_BASE_ID + 8	// Minimum height before mario style control will stop jump.
-#define DC_HANSBURG_MEMBER_MAX_Y						DC_HANSBURG_BASE_ID + 9	// Maximum height to allow wall jumps, double jumps, etc.
-#define DC_HANSBURG_MEMBER_MARIO_Y_STOP					DC_HANSBURG_BASE_ID + 10	// Percentage of current Y to apply when stopping a mario style jump.
-#define DC_HANSBURG_MEMBER_THE_END						11			// Should always last, with a value one higher than previous key ID.
+#define DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT			DC_HANSBURG_BASE_ID + 6
+#define DC_HANSBURG_MEMBER_DOUBLE_JUMP_MAX				DC_HANSBURG_BASE_ID + 7
+#define DC_HANSBURG_MEMBER_DISABLE						DC_HANSBURG_BASE_ID + 8		// Disable auxiliary jumping.
+#define DC_HANSBURG_MEMBER_ENT							DC_HANSBURG_BASE_ID + 9		// Entity.
+#define DC_HANSBURG_MEMBER_MARIO_MIN_Y					DC_HANSBURG_BASE_ID + 10	// Minimum height before mario style control will stop jump.
+#define DC_HANSBURG_MEMBER_MAX_Y						DC_HANSBURG_BASE_ID + 11	// Maximum height to allow wall jumps, double jumps, etc.
+#define DC_HANSBURG_MEMBER_MARIO_Y_STOP					DC_HANSBURG_BASE_ID + 12	// Percentage of current Y to apply when stopping a mario style jump.
+#define DC_HANSBURG_MEMBER_THE_END						13			// Should always be last, with a value one higher than previous key ID.
 
 // Instance control. 
 #define dc_hansburg_get_instance()				dc_instance_get(DC_HANSBURG_MEMBER_INSTANCE)
