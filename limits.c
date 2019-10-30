@@ -81,7 +81,7 @@ int dc_hansburg_disable_check()
 	// current elapsed time) or infinite? if either
 	// is true, than we return true.
 	if (time_disable > elapsed_time
-		|| time_disable != DC_HANSBURG_TIME_INFINITE)
+		|| time_disable == DC_HANSBURG_TIME_INFINITE)
 	{
 		// Return true.
 		return 1;

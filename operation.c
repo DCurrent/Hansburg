@@ -10,13 +10,26 @@
 // 2019-10-30
 //
 // Verify basic eligibility requirements before we allow 
-// a secondary jump.
+// a secondary jump. Returns 1 (true) if the jump is 
+// allowed, 0 (false) if not.
 int dc_hansburg_check_alternate_jump_elgible()
 {
 	void ent = dc_hansburg_get_entity();
 	
 	// We have to be in the assigned jump animation.
 	if (get_entity_property(ent, "animation_id") != get_entity_property(ent, "jump_animation_id"))
+	{
+		return 0;
+	}
+
+	// Secondary jumping temporarily disabled?
+	if (dc_hansburg_disable_check())
+	{
+		return 0;
+	}
+
+	// Above current Y position limit?
+	if (get_entity_property(ent, "position_y") > dc_hansburg_get_max_y())
 	{
 		return 0;
 	}
@@ -39,8 +52,6 @@ int dc_hansburg_execute(){
 	int     key_hold        = 0;        // Keys currently held when event was triggered.
 	int     direction       = openborconstant("DIRECTION_RIGHT");    // Current facing.
 	int     cmd_direction   = DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL;  // Current directional command hold from player in relation to entity's facing.
-	float   position_y      = 0.0;      // Entity position, Y axis.
-	float   position_height = 0.0;      // Entity height from base.
 	int     animation_id    = 0;        // Current animation.
 	int     animation_valid = 0;         // Flag indicating entity has an animation.
     float   edge_x          = 0.0;      // Edge check position, X axis.
@@ -49,7 +60,6 @@ int dc_hansburg_execute(){
 	int     obstacle_x;
     int     animation_set   = 0;        // Animation to perform.
     float   position_x_set  = 0.0;      // Position to set, X axis.
-    float   maximum_height;	// Maximum height to allow auxiliary jumps.
     
 	// Get acting entity.
 	ent = dc_hansburg_get_entity();
@@ -67,21 +77,8 @@ int dc_hansburg_execute(){
 		// Let's get the entity properties we'll need.
 	    animation_id    = get_entity_property(ent, "animation_id");
 	    direction       = get_entity_property(ent, "position_direction");
-	    position_y      = get_entity_property(ent, "position_y");
-
-        // Get current maximum height.
-        maximum_height  = dc_hansburg_get_max_y();
-
-        // If current Y position is beyond maximum height, then
-        // exit. We don't want to do anything else.
-        if(position_y > maximum_height)
-        {
-            // was triggered. Return false.
-            return DC_HANSBURG_NO_AUX_JUMP;
-        }
-
-		// Is entity in a valid jumping animation and within maximum
-        // vertical distance from base?
+	    
+		// Is entity elgible for a secondary jump?
 		if(dc_hansburg_check_alternate_jump_elgible())
 		{
 			
