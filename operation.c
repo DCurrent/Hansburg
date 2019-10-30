@@ -252,20 +252,16 @@ void dc_hansburg_do_edge_jump_finish()
 {
 	void ent = dc_hansburg_get_entity();
 
-	// Turn off toss time.
+	// Reset toss time.
 	set_entity_property(ent, "toss_time", 0);
 
+	// Switch to the edge jump animation.
 	changeentityproperty(ent, "animation", DC_HANSBURG_ANI_JUMP_EDGE);
 
-	float toss_x = 2.0;
-	float toss_y = 3.0;
-	float toss_z = 0.0;
-
-	tossentity(ent, toss_y, toss_x, toss_z);
-
+	// Set AI action so this is treated like a normal jump.
 	changeentityproperty(ent, "takeaction", "common_jump");
 
-	// Before allowing a jump attack, OppenBOR evaluates the following:
+	// Before allowing a jump attack, OpenBOR evaluates the following:
 	// -- In orginal designated jump animation.
 	// -- Jump attack cancels are allowed.
 	// -- We are in the very last frame of current animation.

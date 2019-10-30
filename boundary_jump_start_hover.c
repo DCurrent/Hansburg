@@ -4,7 +4,7 @@
 // Tosstime to apple when placed into a boundary (wall/obstacle/screen edge) jump start.
 
 // Get
-void dc_hansburg_get_boundary_jump_start_hover()
+int dc_hansburg_get_boundary_jump_start_hover()
 {
 	char id;
 	void result;
