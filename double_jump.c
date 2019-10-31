@@ -197,7 +197,7 @@ int dc_hansburg_try_double_jump()
 	float pos_y = get_entity_property(ent, "position_y");
 	float base = get_entity_property(ent, "position_base");	
 
-	if (pos_y - base >= DC_HANSBURG_IN_AIR)
+	if (pos_y - base <= DC_HANSBURG_IN_AIR)
 	{	
 		dc_hansburg_set_double_jump_count(NULL());
 		return;
@@ -239,7 +239,7 @@ int dc_hansburg_try_double_jump()
 		// Forward.
 	case DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD:
 
-		result = dc_hansburg_try_jump_animation(DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD, DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD);
+		result = dc_hansburg_try_jump_animation(DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD, DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD_RUN);
 		break;
 	}
 

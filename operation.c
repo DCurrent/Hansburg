@@ -118,34 +118,12 @@ int dc_hansburg_execute(){
             }
             else if(edge_x)
             {
-				dc_hansburg_do_edge_jump_start(edge_x);
+				return dc_hansburg_do_edge_jump_start(edge_x);
 			}
 		}
 
 		// Double jump.
-
-        
-
-		// Did we set up an alternate jump of any kind? If so let's take care of the details here.
-        if(animation_set)
-        {
-            // Does entity have the selected animation?
-            animation_valid = getentityproperty(ent, "animvalid", animation_set);
-
-            if(animation_valid == 1)
-            {
-                // Now we need to stop all current velocity.
-				set_entity_property(ent, "velocity_x", 0);
-				set_entity_property(ent, "velocity_y", 0);
-				set_entity_property(ent, "velocity_z", 0);
-
-				// Execute the animation.
-				performattack(ent, animation_set);
-
-                // We are finished, so return animation ID and exit the function.
-                return animation_set;
-            }
-        }
+		dc_hansburg_try_double_jump();
 	}
 
 	// If we made it all the way here, then no special jump action

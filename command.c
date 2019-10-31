@@ -24,7 +24,10 @@ int dc_hansburg_find_direction_command()
 	// Get the key "entity_status".
 	player_index = getentityproperty(ent, "playerindex");
 	key_hold = getplayerproperty(player_index, "keys");
-	
+
+	// Get direction.
+	direction = get_entity_property(ent, "position_direction");
+
 	// If player is holding left or right, check
 	// entity direction. If the two match, then
 	// we can consider the player key "forward".
