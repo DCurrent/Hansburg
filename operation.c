@@ -6,6 +6,7 @@
 #import "data/scripts/dc_hansburg/entity.c"
 #import "data/scripts/dc_hansburg/limits.c"
 #import "data/scripts/dc_hansburg/terrain.c"
+#import "data/scripts/dc_hansburg/try_jump_animation.c"
 
 // Caskey, Damon V.
 // 2019-10-30
@@ -173,7 +174,7 @@ int dc_hansburg_do_edge_jump_start(float edge_x)
 	set_entity_property(ent, "velocity_y", 0);
 	set_entity_property(ent, "velocity_z", 0);
 
-	// Set the edge jumps tart animation.
+	// Set the edge jumps start animation.
 	performattack(ent, DC_HANSBURG_ANI_JUMP_EDGE_START);
 
 	// Hover in midair so we don't slide
@@ -195,26 +196,6 @@ int dc_hansburg_do_edge_jump_start(float edge_x)
 // starting the jump.
 void dc_hansburg_do_edge_jump_finish()
 {
-	void ent = dc_hansburg_get_entity();
-
-	// Reset toss time.
-	set_entity_property(ent, "toss_time", 0);
-
-	// Switch to the edge jump animation.
-	performattack(ent, DC_HANSBURG_ANI_JUMP_EDGE);
-
-	// Set AI action so this is treated like a normal jump.
-	changeentityproperty(ent, "takeaction", "common_jump");
-
-	// Before allowing a jump attack, OpenBOR evaluates the following:
-	// -- In orginal designated jump animation.
-	// -- Jump attack cancels are allowed.
-	// -- We are in the very last frame of current animation.
-	//
-	// We don’t want to wait until last frame to allow player attacks,
-	// and we don’t want to mess with cancel settings. Instead, we just
-	// tell OpenBOR our new animation is the primary jump animation ID.
-
-	set_entity_property(ent, "jump_animation_id", DC_HANSBURG_ANI_JUMP_EDGE);
+	dc_hansburg_try_jump_animation(DC_HANSBURG_ANI_JUMP_EDGE, DC_HANSBURG_ANI_JUMP_EDGE_RUN);
 }
 
