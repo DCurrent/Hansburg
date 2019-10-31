@@ -223,7 +223,7 @@ void dc_hansburg_do_edge_jump_finish()
 	set_entity_property(ent, "toss_time", 0);
 
 	// Switch to the edge jump animation.
-	changeentityproperty(ent, "animation", DC_HANSBURG_ANI_JUMP_EDGE);
+	performattack(ent, DC_HANSBURG_ANI_JUMP_EDGE);
 
 	// Set AI action so this is treated like a normal jump.
 	changeentityproperty(ent, "takeaction", "common_jump");

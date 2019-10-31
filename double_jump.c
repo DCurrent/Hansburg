@@ -3,6 +3,7 @@
 
 #import "data/scripts/dc_hansburg/command.c"
 #import "data/scripts/dc_hansburg/entity.c"
+#import "data/scripts/dc_hansburg/try_jump_animation.c"
 
 // Number of double jumps executed.
 int dc_hansburg_get_double_jump_count()
@@ -31,6 +32,108 @@ void dc_hansburg_set_double_jump_count(int value)
 	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT;
 
 	if (value == DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT)
+	{
+		value = NULL();
+	}
+
+	setindexedvar(id, value);
+}
+
+// Reset double jump count when jumping from screen edge.
+int dc_hansburg_get_double_jump_count_reset_edge()
+{
+	char id;
+	int result;
+
+	// Get id.
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_EDGE;
+
+	result = getlocalvar(id);
+
+	if (typeof(result) != openborconstant("VT_INTEGER"))
+	{
+		result = DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_EDGE;
+	}
+
+	return result;
+}
+
+void dc_hansburg_set_double_jump_count_reset_edge(int value)
+{
+	char id;
+
+	// Get id.
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_EDGE;
+
+	if (value == DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_EDGE)
+	{
+		value = NULL();
+	}
+
+	setindexedvar(id, value);
+}
+
+// Reset double jump count when jumping from obstacle.
+int dc_hansburg_get_double_jump_count_reset_obstacle()
+{
+	char id;
+	int result;
+
+	// Get id.
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_OBSTACLE;
+
+	result = getlocalvar(id);
+
+	if (typeof(result) != openborconstant("VT_INTEGER"))
+	{
+		result = DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_OBSTACLE;
+	}
+
+	return result;
+}
+
+void dc_hansburg_set_double_jump_count_reset_obstacle(int value)
+{
+	char id;
+
+	// Get id.
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_OBSTACLE;
+
+	if (value == DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_OBSTACLE)
+	{
+		value = NULL();
+	}
+
+	setindexedvar(id, value);
+}
+
+// Reset double jump count when jumping from wall.
+int dc_hansburg_get_double_jump_count_reset_wall()
+{
+	char id;
+	int result;
+
+	// Get id.
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_WALL;
+
+	result = getlocalvar(id);
+
+	if (typeof(result) != openborconstant("VT_INTEGER"))
+	{
+		result = DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_WALL;
+	}
+
+	return result;
+}
+
+void dc_hansburg_set_double_jump_count_reset_wall(int value)
+{
+	char id;
+
+	// Get id.
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_WALL;
+
+	if (value == DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_WALL)
 	{
 		value = NULL();
 	}
@@ -72,51 +175,82 @@ void dc_hansburg_set_double_jump_max(int value)
 	setindexedvar(id, value);
 }
 
-int dc_hansburg_check_double_jump()
+// Caskey, Damon V.
+// 2019-10-30
+//
+// Attempt to perform a double jump. The following 
+// conditions must pass:
+//
+// -- Entity is airborne.
+// -- Entity has not exceeded the maximum allowed 
+// double jumps (resets when entity jumps from ground). 
+int dc_hansburg_try_double_jump()
 {
 	void ent = dc_hansburg_get_entity();
 	int cmd_direction;
-	int running;
-	int animation;
+	int result = DC_HANSBURG_NO_AUX_JUMP;
+	int double_jump_count = 0;
 
-	// Is entity in the air?
+	// If we aren't in the air, then we are starting a
+	// normal jump. Clear the double jump count and exit.
+
 	float pos_y = get_entity_property(ent, "position_y");
-	float base = get_entity_property(ent, "position_base");
+	float base = get_entity_property(ent, "position_base");	
 
 	if (pos_y - base >= DC_HANSBURG_IN_AIR)
-	{
-		cmd_direction = dc_hansburg_find_direction_command();
-		running = get_entity_property(ent, "run_state");
-
-		// Let's decide which double jump animation to use based
-		// on player's horizontal direction command and if they 
-		// are in a running state.
-		
-		switch (cmd_direction)
-		{
-			// No direction at all.
-		default:
-		case DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL:
-
-			animation = DC_HANSBURG_ANI_JUMP_DOUBLE_NEUTRAL;
-			break;
-
-			// Backward.
-		case DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK:
-
-			animation = DC_HANSBURG_ANI_JUMP_DOUBLE_BACK;
-			break;
-
-			// Forward.
-		case DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD:
-
-			animation = DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD;
-			break;
-		}
-	}
-	else
-	{
-		// Clear double jump count.
+	{	
 		dc_hansburg_set_double_jump_count(NULL());
+		return;
 	}
+
+	// Check the double jump count. If it at or over 
+	// the maximum, we can't double jump. Just exit.
+		
+	double_jump_count = dc_hansburg_get_double_jump_count();
+
+	if (double_jump_count >= dc_hansburg_get_double_jump_max())
+	{
+		return;
+	}		
+		
+	// Check the player's direction command, and depending
+	// on their input, we will send Forward, Neutral or
+	// backward jump animations to dc_hansburg_try_jump_animation
+	// function to apply a running or non-running version
+	// of the double jump, assuming entity has either.
+		
+	cmd_direction = dc_hansburg_find_direction_command();
+
+	switch (cmd_direction)
+	{
+		// No direction at all.
+	default:
+	case DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL:
+
+		result = dc_hansburg_try_jump_animation(DC_HANSBURG_ANI_JUMP_DOUBLE_NEUTRAL, DC_HANSBURG_ANI_JUMP_DOUBLE_NEUTRAL_RUN);
+		break;
+
+		// Backward.
+	case DC_HANSBURG_KEY_MOVE_HORIZONTAL_BACK:
+
+		result = dc_hansburg_try_jump_animation(DC_HANSBURG_ANI_JUMP_DOUBLE_BACK, DC_HANSBURG_ANI_JUMP_DOUBLE_BACK_RUN);
+		break;
+
+		// Forward.
+	case DC_HANSBURG_KEY_MOVE_HORIZONTAL_FORWARD:
+
+		result = dc_hansburg_try_jump_animation(DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD, DC_HANSBURG_ANI_JUMP_DOUBLE_FORWARD);
+		break;
+	}
+
+	// If we sucessfuly double jumped, then let's increment the
+	// double jump counter.
+	if (result != DC_HANSBURG_NO_AUX_JUMP)
+	{			
+		double_jump_count++;
+		dc_hansburg_set_double_jump_count(double_jump_count);
+	}	
 }
+
+
+
