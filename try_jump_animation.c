@@ -6,8 +6,14 @@
 // 2019-10-30
 //
 // Attempt to set jump animation based on running state
-// and availability. Returns DC_HANSBURG_NO_AUX_JUMP if
-// entity does not have requested jump animation.
+// and availability.
+//
+// -- Switch to edge jump animation. Returns 
+// DC_HANSBURG_NO_EXTRA_JUMP if entity does not 
+// have requested jump animation.
+// -- Set jumping flag.
+// -- Turn off tosstime that we applied when 
+// starting the jump.
 int dc_hansburg_try_jump_animation(int animation_base, int animation_running)
 {
 	void ent = dc_hansburg_get_entity();
@@ -15,9 +21,7 @@ int dc_hansburg_try_jump_animation(int animation_base, int animation_running)
 	int animation;
 
 	// Reset toss time.
-	set_entity_property(ent, "toss_time", 0);
-
-	
+	set_entity_property(ent, "toss_time", 0);	
 
 	// If we are running and have version of the secondary jump, then let's
 	// switch to and return it.
@@ -48,6 +52,5 @@ int dc_hansburg_try_jump_animation(int animation_base, int animation_running)
 		return animation_base;
 	}
 
-	return DC_HANSBURG_NO_AUX_JUMP;
-
+	return DC_HANSBURG_NO_EXTRA_JUMP;
 }

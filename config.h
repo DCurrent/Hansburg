@@ -68,7 +68,7 @@
 
 // Control flags
 #define DC_HANSBURG_TIME_INFINITE               -1                                  // True.
-#define DC_HANSBURG_NO_AUX_JUMP					-1									// No auxilliary jump animation set.
+#define DC_HANSBURG_NO_EXTRA_JUMP				-1									// No auxilliary jump animation set.
 
 // General limits
 #define DC_HANSBURG_IN_AIR						0.1

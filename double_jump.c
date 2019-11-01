@@ -188,7 +188,7 @@ int dc_hansburg_try_double_jump()
 {
 	void ent = dc_hansburg_get_entity();
 	int cmd_direction;
-	int result = DC_HANSBURG_NO_AUX_JUMP;
+	int result = DC_HANSBURG_NO_EXTRA_JUMP;
 	int double_jump_count = 0;
 
 	// If we aren't in the air, then we are starting a
@@ -245,11 +245,13 @@ int dc_hansburg_try_double_jump()
 
 	// If we sucessfuly double jumped, then let's increment the
 	// double jump counter.
-	if (result != DC_HANSBURG_NO_AUX_JUMP)
+	if (result != DC_HANSBURG_NO_EXTRA_JUMP)
 	{			
 		double_jump_count++;
 		dc_hansburg_set_double_jump_count(double_jump_count);
-	}	
+	}
+
+	return result;
 }
 
 
