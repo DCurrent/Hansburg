@@ -46,7 +46,7 @@ void main()
     dc_hansburg_set_key_press(player_key_press);
 
     // Execute the aux jump function and get the result.
-    aux_jump = dc_hansburg_execute();
+    aux_jump = dc_hansburg_try_extra_jump();
 
     // If an aux jump was triggered, let's clear the
     // Jump key. We don't HAVE to do this, and in some cases
