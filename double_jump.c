@@ -40,100 +40,32 @@ void dc_hansburg_set_double_jump_count(int value)
 }
 
 // Reset double jump count when jumping from screen edge.
-int dc_hansburg_get_double_jump_count_reset_edge()
+int dc_hansburg_get_double_jump_count_reset()
 {
 	char id;
 	int result;
 
 	// Get id.
-	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_EDGE;
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET;
 
 	result = getlocalvar(id);
 
 	if (typeof(result) != openborconstant("VT_INTEGER"))
 	{
-		result = DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_EDGE;
+		result = DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET;
 	}
 
 	return result;
 }
 
-void dc_hansburg_set_double_jump_count_reset_edge(int value)
+void dc_hansburg_set_double_jump_count_reset(int value)
 {
 	char id;
 
 	// Get id.
-	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_EDGE;
+	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET;
 
-	if (value == DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_EDGE)
-	{
-		value = NULL();
-	}
-
-	setlocalvar(id, value);
-}
-
-// Reset double jump count when jumping from obstacle.
-int dc_hansburg_get_double_jump_count_reset_obstacle()
-{
-	char id;
-	int result;
-
-	// Get id.
-	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_OBSTACLE;
-
-	result = getlocalvar(id);
-
-	if (typeof(result) != openborconstant("VT_INTEGER"))
-	{
-		result = DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_OBSTACLE;
-	}
-
-	return result;
-}
-
-void dc_hansburg_set_double_jump_count_reset_obstacle(int value)
-{
-	char id;
-
-	// Get id.
-	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_OBSTACLE;
-
-	if (value == DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_OBSTACLE)
-	{
-		value = NULL();
-	}
-
-	setlocalvar(id, value);
-}
-
-// Reset double jump count when jumping from wall.
-int dc_hansburg_get_double_jump_count_reset_wall()
-{
-	char id;
-	int result;
-
-	// Get id.
-	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_WALL;
-
-	result = getlocalvar(id);
-
-	if (typeof(result) != openborconstant("VT_INTEGER"))
-	{
-		result = DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_WALL;
-	}
-
-	return result;
-}
-
-void dc_hansburg_set_double_jump_count_reset_wall(int value)
-{
-	char id;
-
-	// Get id.
-	id = dc_hansburg_get_instance() + DC_HANSBURG_MEMBER_DOUBLE_JUMP_COUNT_RESET_WALL;
-
-	if (value == DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET_WALL)
+	if (value == DC_HANSBURG_DEFAULT_DOUBLE_JUMP_COUNT_RESET)
 	{
 		value = NULL();
 	}

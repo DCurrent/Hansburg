@@ -1,6 +1,7 @@
 #include "data/scripts/dc_hansburg/config.h"
 
 #import "data/scripts/dc_hansburg/boundary_jump_start_hover.c"
+#import "data/scripts/dc_hansburg/double_jump.c"
 #import "data/scripts/dc_hansburg/entity.c"
 #import "data/scripts/dc_hansburg/try_jump_animation.c"
 
@@ -97,6 +98,12 @@ int dc_hansburg_try_edge_jump()
 	// down the edge while in startup pose
 	// for edge jump.
 	set_entity_property(ent, "toss_time", openborvariant("elapsed_time") + dc_hansburg_get_boundary_jump_start_hover());
+
+	// If reset flag is set, reset the double jump counter.
+	if (dc_hansburg_get_double_jump_count_reset() & DC_HANSBURG_DOUBLE_JUMP_COUNT_RESET_EDGE)
+	{
+		dc_hansburg_set_double_jump_count(NULL());
+	}
 
 	// If we made it here, we have successfully
 	// started an edge jump. Return animation.

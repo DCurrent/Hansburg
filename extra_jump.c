@@ -29,7 +29,11 @@ int dc_hansburg_check_extra_jump_elgible()
 
 	if (pos_y - pos_base <= DC_HANSBURG_IN_AIR)
 	{
-		dc_hansburg_set_double_jump_count(NULL());
+		// If reset flag is set, reset the double jump counter.
+		if (dc_hansburg_get_double_jump_count_reset() & DC_HANSBURG_DOUBLE_JUMP_COUNT_RESET_BASE)
+		{
+			dc_hansburg_set_double_jump_count(NULL());
+		}
 
 		return 0;
 	}
