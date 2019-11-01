@@ -17,24 +17,43 @@
 int dc_hansburg_check_alternate_jump_elgible()
 {
 	void ent = dc_hansburg_get_entity();
+	float pos_y;
+	int pos_base;
+
+	// If we aren't in the air, then we are starting a
+	// normal jump. Along with returning false, we also 
+	// need to clear the double jump count.
 	
+	pos_y = get_entity_property(ent, "position_y");
+	pos_base = get_entity_property(ent, "position_base");
+
+	if (pos_y - pos_base <= DC_HANSBURG_IN_AIR)
+	{
+		dc_hansburg_set_double_jump_count(NULL());
+
+		return 0;
+	}
+
 	// We have to be in the assigned jump animation.
+
 	if (get_entity_property(ent, "animation_id") != get_entity_property(ent, "jump_animation_id"))
 	{
 		return 0;
 	}
 
 	// Secondary jumping temporarily disabled?
+
 	if (dc_hansburg_disable_check())
 	{
 		return 0;
 	}
 
 	// Above current Y position limit?
-	if (get_entity_property(ent, "position_y") > dc_hansburg_get_max_y())
+
+	if(pos_y > dc_hansburg_get_max_y())
 	{
 		return 0;
-	}
+	}	
 
 	// All checks passed, so return true.
 	return 1;

@@ -28,7 +28,7 @@ int dc_hansburg_try_jump_animation(int animation_base, int animation_running)
 	if (running && getentityproperty(ent, "animvalid", animation_running))
 	{
 		// Switch to the animation.
-		performattack(ent, animation_running);
+		performattack(ent, animation_running, 1);
 
 		// Set AI action so this is treated like a normal jump.
 		changeentityproperty(ent, "takeaction", "common_jump");
@@ -42,7 +42,7 @@ int dc_hansburg_try_jump_animation(int animation_base, int animation_running)
 	if (getentityproperty(ent, "animvalid", animation_base))
 	{
 		// Switch to the animation.
-		performattack(ent, animation_base);
+		performattack(ent, animation_base, 1);
 
 		// Set AI action so this is treated like a normal jump.
 		changeentityproperty(ent, "takeaction", "common_jump");

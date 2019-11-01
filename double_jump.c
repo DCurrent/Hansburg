@@ -36,7 +36,7 @@ void dc_hansburg_set_double_jump_count(int value)
 		value = NULL();
 	}
 
-	setindexedvar(id, value);
+	setlocalvar(id, value);
 }
 
 // Reset double jump count when jumping from screen edge.
@@ -70,7 +70,7 @@ void dc_hansburg_set_double_jump_count_reset_edge(int value)
 		value = NULL();
 	}
 
-	setindexedvar(id, value);
+	setlocalvar(id, value);
 }
 
 // Reset double jump count when jumping from obstacle.
@@ -104,7 +104,7 @@ void dc_hansburg_set_double_jump_count_reset_obstacle(int value)
 		value = NULL();
 	}
 
-	setindexedvar(id, value);
+	setlocalvar(id, value);
 }
 
 // Reset double jump count when jumping from wall.
@@ -138,7 +138,7 @@ void dc_hansburg_set_double_jump_count_reset_wall(int value)
 		value = NULL();
 	}
 
-	setindexedvar(id, value);
+	setlocalvar(id, value);
 }
 
 // Maximum allowed double jumps.
@@ -172,7 +172,7 @@ void dc_hansburg_set_double_jump_max(int value)
 		value = NULL();
 	}
 
-	setindexedvar(id, value);
+	setlocalvar(id, value);
 }
 
 // Caskey, Damon V.
@@ -186,33 +186,32 @@ void dc_hansburg_set_double_jump_max(int value)
 // double jumps (resets when entity jumps from ground). 
 int dc_hansburg_try_double_jump()
 {
+	log("\n\n");
+	log("\n dc_hansburg_try_double_jump");
+
+
 	void ent = dc_hansburg_get_entity();
 	int cmd_direction;
 	int result = DC_HANSBURG_NO_EXTRA_JUMP;
-	int double_jump_count = 0;
+	int double_jump_count = 0;	
 
-	// If we aren't in the air, then we are starting a
-	// normal jump. Clear the double jump count and exit.
-
-	float pos_y = get_entity_property(ent, "position_y");
-	float base = get_entity_property(ent, "position_base");	
-
-	if (pos_y - base <= DC_HANSBURG_IN_AIR)
-	{	
-		dc_hansburg_set_double_jump_count(NULL());
-		return;
-	}
+	log("\n dc_hansburg_try_double_jump, passed Y");
 
 	// Check the double jump count. If it at or over 
 	// the maximum, we can't double jump. Just exit.
 		
 	double_jump_count = dc_hansburg_get_double_jump_count();
 
+	log("\n dc_hansburg_try_double_jump, dc_hansburg_get_double_jump_max(): " + dc_hansburg_get_double_jump_max());
+	log("\n dc_hansburg_try_double_jump, double_jump_count: " + double_jump_count);
+
 	if (double_jump_count >= dc_hansburg_get_double_jump_max())
 	{
-		return;
+		return result;
 	}		
-		
+
+	log("\n dc_hansburg_try_double_jump, passed count");
+
 	// Check the player's direction command, and depending
 	// on their input, we will send Forward, Neutral or
 	// backward jump animations to dc_hansburg_try_jump_animation
@@ -247,9 +246,14 @@ int dc_hansburg_try_double_jump()
 	// double jump counter.
 	if (result != DC_HANSBURG_NO_EXTRA_JUMP)
 	{			
-		double_jump_count++;
+		log("\n dc_hansburg_try_double_jump, double_jump_count: " + double_jump_count);
+		double_jump_count = double_jump_count + 1;
+		log("\n dc_hansburg_try_double_jump, double_jump_count: " + double_jump_count);
 		dc_hansburg_set_double_jump_count(double_jump_count);
 	}
+
+	log("\n dc_hansburg_try_double_jump, all");
+	log("\n dc_hansburg_try_double_jump, dc_hansburg_get_double_jump_count: " + dc_hansburg_get_double_jump_count());
 
 	return result;
 }
