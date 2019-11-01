@@ -54,78 +54,85 @@ int dc_hansburg_execute(){
 	int		player_index;	// Player index controlling entity.
 	int     key_press       = 0;        // Key press triggering event.
 	int     cmd_direction   = DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL;  // Current directional command hold from player in relation to entity's facing.
-	int     animation_id    = 0;        // Current animation.
-	int     animation_valid = 0;         // Flag indicating entity has an animation.
-    float   edge_x          = 0.0;      // Edge check position, X axis.
+	float   edge_x          = 0.0;      // Edge check position, X axis.
     int     wall_x          = 0;        // Wall check position, X axis.
 	void	obstacle;
 	int     obstacle_x;
-    int     animation_set   = 0;        // Animation to perform.
     float   position_x_set  = 0.0;      // Position to set, X axis.
     
-	// Get acting entity.
+	// Get acting entity.	
 	ent = dc_hansburg_get_entity();
 
-	// Get the player key press.
+	// Verify the trigger event is a Jump key press. Thsi is 
+	// very important - key events run when any key is pressed,
+	// released, and on every update while held. In other words, 
+	// the vast majority of the time this will be a key event we 
+	// don't care about. So to avoid wasting CPU time we want to 
+	// get out quickly as possible as we can unless key event 
+	// is the one we are looking for.
+	
 	player_index = get_entity_property(ent, "player_index");
-    key_press    = getplayerproperty(player_index, "newkeys");
-
-	// Is this a jump key press and a valid entity pointer?
-	if(key_press & openborconstant("FLAG_JUMP"))
+    key_press    = getplayerproperty(player_index, "newkeys");	
+	
+	if (!(key_press & openborconstant("FLAG_JUMP")))
 	{
-		// Let's get the entity properties we'll need.
-	    animation_id    = get_entity_property(ent, "animation_id");
-	    	    
-		// Is entity elgible for a secondary jump?
-		if(dc_hansburg_check_alternate_jump_elgible())
-		{			
-			// We'll need to get the x position of any possible walls
-            // or edges within range of our alternate jump animations.
-			
-			// Set up dc_target to use our instance and entity.
-			dc_target_set_instance(dc_hansburg_get_instance_dependency());
-			dc_target_set_entity(dc_hansburg_get_entity());
-
-            edge_x      = dc_target_find_edge_x(DC_HANSBURG_ANI_JUMP_EDGE_START);
-            wall_x      = dc_hansburg_find_wall_x(DC_HANSBURG_ANI_JUMP_WALL_START);
-
-			// Obstacle?			
-			dc_target_set_animation(DC_HANSBURG_ANI_JUMP_OBJECT_START);
-            obstacle  = dc_target_find_obstacle();
-
-			log("\n dc_hansburg_execute, edge_x:" + edge_x);
-			log("\n dc_hansburg_execute, wall_x:" + wall_x);
-			log("\n dc_hansburg_execute, obstacle:" + obstacle);
-
-            if(obstacle)
-            {
-				obstacle_x = get_entity_property(obstacle, "position_x");
-
-                // prepare animation.
-                animation_set   = DC_HANSBURG_ANI_JUMP_OBJECT_START;
-
-                // Face away from obstacle.
-                //dc_hansburg_do_boundary_jump_position(ent, obstacle_x);
-
-            }
-            else if(wall_x)
-            {
-                // Prepare animation.
-                animation_set   = DC_HANSBURG_ANI_JUMP_WALL_START;
-
-                // Face away from wall.
-                //dc_hansburg_do_boundary_jump_position(ent, wall_x);
-
-            }
-            else if(edge_x)
-            {
-				return dc_hansburg_do_edge_jump_start(edge_x);
-			}
-		}
-
-		// Double jump.
-		dc_hansburg_try_double_jump();
+		return 0;
 	}
+
+	// Now let's see if the entity exists in play.
+	if (!get_entity_property(ent, "exists"))
+	{
+		return 0;
+	}
+
+	// Verify we are elgible for a secondary jump.
+	if (!dc_hansburg_check_alternate_jump_elgible())
+	{
+		return 0;
+	}	    	    
+				
+	// We'll need to get the x position of any possible walls
+    // or edges within range of our alternate jump animations.
+			
+	// Set up dc_target to use our instance and entity.
+	dc_target_set_instance(dc_hansburg_get_instance_dependency());
+	dc_target_set_entity(dc_hansburg_get_entity());
+
+    edge_x      = dc_target_find_edge_x(DC_HANSBURG_ANI_JUMP_EDGE_START);
+    wall_x      = dc_hansburg_find_wall_x(DC_HANSBURG_ANI_JUMP_WALL_START);
+
+	// Obstacle?			
+	dc_target_set_animation(DC_HANSBURG_ANI_JUMP_OBJECT_START);
+    obstacle  = dc_target_find_obstacle();
+
+	log("\n dc_hansburg_execute, edge_x:" + edge_x);
+	log("\n dc_hansburg_execute, wall_x:" + wall_x);
+	log("\n dc_hansburg_execute, obstacle:" + obstacle);
+
+    if(obstacle)
+    {
+		obstacle_x = get_entity_property(obstacle, "position_x");
+
+        // prepare animation.
+        // Face away from obstacle.
+        //dc_hansburg_do_boundary_jump_position(ent, obstacle_x);
+
+    }
+    else if(wall_x)
+    {
+        // Prepare animation.
+        // Face away from wall.
+        //dc_hansburg_do_boundary_jump_position(ent, wall_x);
+
+    }
+    else if(edge_x)
+    {
+		return dc_hansburg_do_edge_jump_start(edge_x);
+	}		
+
+	// Double jump.
+	return dc_hansburg_try_double_jump();
+	
 
 	// If we made it all the way here, then no special jump action
 	// was triggered. Return false.
