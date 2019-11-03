@@ -1,6 +1,34 @@
 #include "data/scripts/dc_hansburg/config.h"
-
 #import "data/scripts/dc_hansburg/entity.c"
+
+// Caskey, Damon V.
+// 2019-11-03
+//
+// Select from running or non-running animations. If the
+// animations are identical or running animation is not
+// available, default to walking animation. Does NOT
+// verify the animations are available.
+int dc_hansburg_find_animation_from_run_state(int animation_default, int animation_run)
+{
+	void ent = dc_hansburg_get_entity();
+	int running = get_entity_property(ent, "run_state");
+	int result = animation_default;
+
+	if (running)
+	{
+		if (animation_default == animation_run)
+		{
+			result = animation_default;
+		}
+		else
+		{
+			result = animation_run;
+		}
+	}
+
+	return result;
+
+}
 
 // Caskey, Damon V.
 // 2019-10-30

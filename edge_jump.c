@@ -3,7 +3,7 @@
 #import "data/scripts/dc_hansburg/boundary_jump_start_hover.c"
 #import "data/scripts/dc_hansburg/double_jump.c"
 #import "data/scripts/dc_hansburg/entity.c"
-#import "data/scripts/dc_hansburg/try_jump_animation.c"
+#import "data/scripts/dc_hansburg/animation.c"
 
 // Caskey, Damon V.
 // Revamped 2019-10-28
@@ -24,29 +24,10 @@ int dc_hansburg_try_edge_jump()
 	ent = dc_hansburg_get_entity();
 
 	// Let's determine which animation we will use.
-	// There's good chance we don't have a seperate
-	// edge start animation for running, and if that's
-	// the case, we need to use non-running edge 
-	// animation even if running. If we don't have 
-	// the selected animation, then we exit.
+	// If we don't have the selected animation, then 
+	// we exit.
 
-	running = get_entity_property(ent, "run_state");
-
-	if (running)
-	{
-		if (DC_HANSBURG_ANI_JUMP_EDGE_START == DC_HANSBURG_ANI_JUMP_EDGE_START_RUN)
-		{
-			animation = DC_HANSBURG_ANI_JUMP_EDGE_START;
-		}
-		else
-		{
-			animation = DC_HANSBURG_ANI_JUMP_EDGE_START_RUN;
-		}
-	}
-	else
-	{
-		animation = DC_HANSBURG_ANI_JUMP_EDGE_START;
-	}
+	animation = dc_hansburg_find_animation_from_run_state(DC_HANSBURG_ANI_JUMP_EDGE_START, DC_HANSBURG_ANI_JUMP_EDGE_START_RUN);
 
 	if (!getentityproperty(ent, "animvalid", animation))
 	{

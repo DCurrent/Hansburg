@@ -3,7 +3,7 @@
 
 #import "data/scripts/dc_hansburg/command.c"
 #import "data/scripts/dc_hansburg/entity.c"
-#import "data/scripts/dc_hansburg/try_jump_animation.c"
+#import "data/scripts/dc_hansburg/animation.c"
 
 // Number of double jumps executed.
 int dc_hansburg_get_double_jump_count()
