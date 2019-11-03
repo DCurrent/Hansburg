@@ -77,7 +77,6 @@ int dc_hansburg_try_extra_jump(){
     void    ent;			// Entity controlled by player index.
 	int		player_index;	// Player index controlling entity.
 	int     key_press       = 0;        // Key press triggering event.
-	int     cmd_direction   = DC_HANSBURG_KEY_MOVE_HORIZONTAL_NEUTRAL;  // Current directional command hold from player in relation to entity's facing.
 	float   edge_x          = 0.0;      // Edge check position, X axis.
     int     wall_x          = 0;        // Wall check position, X axis.
 	void	obstacle;
@@ -88,7 +87,7 @@ int dc_hansburg_try_extra_jump(){
 	// Get acting entity.	
 	ent = dc_hansburg_get_entity();
 
-	// Verify the trigger event is a Jump key press. Thsi is 
+	// Verify the trigger event is a Jump key press. This is 
 	// very important - key events run when any key is pressed,
 	// released, and on every update while held. In other words, 
 	// the vast majority of the time this will be a key event we 
@@ -116,36 +115,11 @@ int dc_hansburg_try_extra_jump(){
 		return DC_HANSBURG_NO_EXTRA_JUMP;
 	}	    	    
 				
-	// We'll need to get the x position of any possible walls
-    // or edges within range of our alternate jump animations.
-			
-	// Set up dc_target to use our instance and entity.
-	dc_target_set_instance(dc_hansburg_get_instance_dependency());
-	dc_target_set_entity(dc_hansburg_get_entity());
 
-    wall_x      = dc_hansburg_find_wall_x(DC_HANSBURG_ANI_JUMP_WALL_START);
+	// Try an obstacle jump, and exit if successful.
 
-	// Obstacle?			
-	dc_target_set_animation(DC_HANSBURG_ANI_JUMP_OBJECT_START);
-    obstacle  = dc_target_find_obstacle();
+	// Try a wall jump, and exit if successful.
 
-    if(obstacle)
-    {
-		obstacle_x = get_entity_property(obstacle, "position_x");
-
-        // prepare animation.
-        // Face away from obstacle.
-        //dc_hansburg_do_boundary_jump_position(ent, obstacle_x);
-
-    }
-    else if(wall_x)
-    {
-        // Prepare animation.
-        // Face away from wall.
-        //dc_hansburg_do_boundary_jump_position(ent, wall_x);
-
-    }
-    
 	// Try a screen edge jump, and exit if successful.
 
 	result = dc_hansburg_try_edge_jump();

@@ -56,8 +56,10 @@ int dc_hansburg_try_edge_jump()
 	// Now we look for a screen edge within the acting 
 	// animation's range. If we don't find a an edge in
 	// range then we exit.
-
-	dc_target_set_instance(DC_HANSBURG_BASE_ID + dc_hansburg_get_instance());
+	
+	dc_target_set_instance(dc_hansburg_get_instance_dependency());
+	dc_target_set_entity(dc_hansburg_get_entity());
+	
 	dc_target_set_animation(animation);
 	edge_x = dc_target_find_edge_x();
 
