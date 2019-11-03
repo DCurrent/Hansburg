@@ -1,12 +1,9 @@
 #include "data/scripts/dc_hansburg/config.h"
 
-#import "data/scripts/dc_hansburg/command.c"
 #import "data/scripts/dc_hansburg/double_jump.c"
 #import "data/scripts/dc_hansburg/edge_jump.c"
 #import "data/scripts/dc_hansburg/entity.c"
 #import "data/scripts/dc_hansburg/limits.c"
-#import "data/scripts/dc_hansburg/terrain.c"
-#import "data/scripts/dc_hansburg/try_jump_animation.c"
 
 // Caskey, Damon V.
 // 2019-10-30
@@ -74,14 +71,9 @@ int dc_hansburg_try_extra_jump(){
 
 	log("\n\n\n dc_hansburg_try_extra_jump -----------------------------------------------");
 
-    void    ent;			// Entity controlled by player index.
-	int		player_index;	// Player index controlling entity.
-	int     key_press       = 0;        // Key press triggering event.
-	float   edge_x          = 0.0;      // Edge check position, X axis.
-    int     wall_x          = 0;        // Wall check position, X axis.
-	void	obstacle;
-	int     obstacle_x;
-    float   position_x_set  = 0.0;      // Position to set, X axis.
+    void    ent;					// Entity controlled by player index.
+	int		player_index;			// Player index controlling entity.
+	int     key_press       = 0;    // Key press triggering event.
 	int		result;
 
 	// Get acting entity.	
