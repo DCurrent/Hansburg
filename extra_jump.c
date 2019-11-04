@@ -2,6 +2,7 @@
 
 #import "data/scripts/dc_hansburg/double_jump.c"
 #import "data/scripts/dc_hansburg/edge_jump.c"
+#import "data/scripts/dc_hansburg/wall_jump.c"
 #import "data/scripts/dc_hansburg/entity.c"
 #import "data/scripts/dc_hansburg/limits.c"
 
@@ -111,6 +112,12 @@ int dc_hansburg_try_extra_jump(){
 	// Try an obstacle jump, and exit if successful.
 
 	// Try a wall jump, and exit if successful.
+	result = dc_hansburg_try_wall_jump();
+
+	if (result != DC_HANSBURG_NO_EXTRA_JUMP)
+	{
+		return result;
+	}
 
 	// Try a screen edge jump, and exit if successful.
 
